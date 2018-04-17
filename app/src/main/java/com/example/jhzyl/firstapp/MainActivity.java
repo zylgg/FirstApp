@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.jhzyl.firstapp.DashBoard.DashBoardFragment;
 import com.example.jhzyl.firstapp.Home.HomeFragment;
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         vp_content.addOnPageChangeListener(onPageChangeListener);
 
     }
-
 
 
 }

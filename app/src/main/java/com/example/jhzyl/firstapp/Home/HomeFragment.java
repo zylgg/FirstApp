@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
         vp_home_content = view.findViewById(R.id.vp_home_content);
 
         MainActivity activity = (MainActivity) getActivity();
+
         vp_home_content.setAdapter(new HomeThemeAdapter(activity, this, activity.getSupportFragmentManager()));
         tl_home_tab.setupWithViewPager(vp_home_content);
     }
