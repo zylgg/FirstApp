@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FirstApp</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string-array name="home_theme">
+        <item>推荐</item>
+        <item>视频</item>
+        <item>图片</item>
+        <item>笑话</item>
+        <item>排行</item>
+    </string-array>
+</resources>

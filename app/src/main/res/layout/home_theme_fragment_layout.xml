@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_home_theme_pos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pos" />
+
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrv_home_theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_home_theme_pos">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_home_theme_lists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </android.support.v7.widget.RecyclerView>
+
+    </com.andview.refreshview.XRefreshView>
+</android.support.constraint.ConstraintLayout>
