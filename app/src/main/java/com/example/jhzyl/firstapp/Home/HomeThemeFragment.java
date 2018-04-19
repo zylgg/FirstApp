@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,15 @@ import android.widget.TextView;
 import com.andview.refreshview.XRefreshView;
 import com.example.jhzyl.firstapp.R;
 
-public class HomeThemeFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+public class HomeThemeFragment extends Fragment {
+    public static final String TAG = "HomeThemeFragment";
     private static OnVisibilityTitleListener onVisibilityTitleListener;
+    private static Map<Integer, Integer> fragTabMap = new HashMap<>();
 
     public static HomeThemeFragment getInstance(int pos, OnVisibilityTitleListener listener) {
         HomeThemeFragment fragment = new HomeThemeFragment();
@@ -32,9 +39,10 @@ public class HomeThemeFragment extends Fragment {
         return fragment;
     }
 
-    RecyclerView rv_home_theme_lists;
-    XRefreshView xrv_home_theme;
-    int refresh_count = 0;
+    private RecyclerView rv_home_theme_lists;
+    private XRefreshView xrv_home_theme;
+    private List<String> datas = new ArrayList<>();
+    private int pos;
 
     @Nullable
     @Override
@@ -44,34 +52,52 @@ public class HomeThemeFragment extends Fragment {
         if (parent != null) {
             parent.removeView(view);
         }
-        refresh_count = 0;
         Bundle bundle = getArguments();
-        int pos = bundle.getInt("pos");
+        pos = bundle.getInt("pos");
+        if (fragTabMap.size()==0||fragTabMap.get(pos)==null){
+            fragTabMap.put(pos,0);
+        }
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        for (int i = 0; i < 40; i++) {
+            datas.add("itemm:" + i + "_刷新次数-" + fragTabMap.get(pos));
+        }
         TextView tv_home_theme_pos = view.findViewById(R.id.tv_home_theme_pos);
         tv_home_theme_pos.setText("pos:" + pos);
         xrv_home_theme = view.findViewById(R.id.xrv_home_theme);
-        xrv_home_theme.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
-            @Override
-            public void onRefresh(boolean isPullDown) {
-                super.onRefresh(isPullDown);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (xrv_home_theme.mPullRefreshing) {
-                            xrv_home_theme.stopRefresh();
-                            refresh_count++;
-                            rv_home_theme_lists.getAdapter().notifyDataSetChanged();
-                        }
-                    }
-                }, 1500);
-            }
-        });
+        xrv_home_theme.setXRefreshViewListener(xRefreshViewListener);
         rv_home_theme_lists = view.findViewById(R.id.rv_home_theme_lists);
         rv_home_theme_lists.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_home_theme_lists.setAdapter(new HomeThemeFragment.MyRvAdapter());
         rv_home_theme_lists.addOnScrollListener(onScrollListener);
-        return view;
     }
+
+    private XRefreshView.XRefreshViewListener xRefreshViewListener = new XRefreshView.SimpleXRefreshListener() {
+        @Override
+        public void onRefresh(boolean isPullDown) {
+            super.onRefresh(isPullDown);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (xrv_home_theme.mPullRefreshing) {
+                        xrv_home_theme.stopRefresh();
+
+                        int refresh_count = fragTabMap.get(pos);
+                        fragTabMap.put(pos, ++refresh_count);
+
+                        datas.clear();
+                        for (int i = 0; i < 40; i++) {
+                            datas.add("itemm:" + i + "_刷新次数-" + fragTabMap.get(pos));
+                        }
+                        rv_home_theme_lists.getAdapter().notifyDataSetChanged();
+                    }
+                }
+            }, 1500);
+        }
+    };
 
     private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -101,13 +127,13 @@ public class HomeThemeFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(MyHolder holder, int position) {
-            holder.text1.setText("itemm:" + position + "_刷新次数-" + refresh_count);
+            holder.text1.setText(datas.get(position));
 
         }
 
         @Override
         public int getItemCount() {
-            return 40;
+            return datas.size();
         }
 
         class MyHolder extends RecyclerView.ViewHolder {

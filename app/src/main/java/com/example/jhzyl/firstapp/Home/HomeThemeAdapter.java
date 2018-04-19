@@ -3,11 +3,12 @@ package com.example.jhzyl.firstapp.Home;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.jhzyl.firstapp.R;
 
-public class HomeThemeAdapter extends FragmentStatePagerAdapter {
+public class HomeThemeAdapter extends FragmentPagerAdapter {
     private Context context;
     private String[] stringArray;
     private OnVisibilityTitleListener onVisibilityTitleListener;

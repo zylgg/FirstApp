@@ -35,7 +35,6 @@ import com.example.jhzyl.firstapp.R;
 import org.w3c.dom.Text;
 
 public class HomeFragment extends Fragment implements OnVisibilityTitleListener {
-    public static final String TAG = "HomeFragment";
 
     LinearLayout ll_home_tab;
     TabLayout tl_home_tab;
@@ -78,7 +77,7 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
         final int colorAccent = getContext().getResources().getColor(R.color.colorAccent);
 
         ValueAnimator animation = ValueAnimator.ofInt(0, scroll_max_height);
-        animation.setDuration(300);
+        animation.setDuration(250);
         animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
