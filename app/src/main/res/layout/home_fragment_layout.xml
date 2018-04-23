@@ -17,7 +17,7 @@
             android:id="@+id/tv_home_theme_title"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimaryDark"
             android:gravity="center"
             android:text="@string/title_home"
             android:fitsSystemWindows="true"

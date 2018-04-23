@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2013 Andreas Stuetz <andreas.stuetz@gmail.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.jhzyl.firstapp.DashBoard.PagerTab;
 
 import android.content.Context;
@@ -75,6 +59,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int mTabCount;
 
     private int mCurrentPosition = 0;
+    /**
+     * 滚动的百分比
+     */
     private float mCurrentPositionOffset = 0f;
 
     private Paint mRectPaint;
@@ -351,7 +338,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
             //确保tabContainer比HorizontalScrollView更大，以便能够滚动。
             mTabsContainer.setMinimumWidth(width);
-            //当我们通过滑动时，将边距设置为false来查看选项卡。
+            //当我们通过滑动时，将边距设置为false来查看选项卡。控件的绘制区域是否在padding里面的
             setClipToPadding(false);
         }
 

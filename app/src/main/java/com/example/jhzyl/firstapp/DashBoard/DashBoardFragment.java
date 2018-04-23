@@ -5,23 +5,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.jhzyl.firstapp.DashBoard.PagerTab.PagerSlidingTabStrip;
 import com.example.jhzyl.firstapp.R;
+import com.squareup.picasso.Picasso;
 
 public class DashBoardFragment extends Fragment {
 
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
+    private ImageView iv_dash_board_title;
+    private TextView tv_dash_board_title;
 
     @Nullable
     @Override
@@ -31,12 +34,16 @@ public class DashBoardFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        TextView tv_dash_board_title = view.findViewById(R.id.tv_dash_board_title);
+        iv_dash_board_title = view.findViewById(R.id.iv_dash_board_title);
+        Picasso.with(getContext()).load("http://inews.gtimg.com/newsapp_match/0/3348583155/0").into(iv_dash_board_title);
+
+        tv_dash_board_title = view.findViewById(R.id.tv_dash_board_title);
+        tv_dash_board_title.setVisibility(View.GONE);
         tabs = view.findViewById(R.id.tabs);
         pager = view.findViewById(R.id.pager);
         if (Build.VERSION.SDK_INT >= 19) {
-            tv_dash_board_title.getLayoutParams().height = tv_dash_board_title.getLayoutParams().height + dip2px(getContext(), 25);//25dp是状态栏高度
-
+            //25dp是状态栏高度
+            tv_dash_board_title.getLayoutParams().height = tv_dash_board_title.getLayoutParams().height + dip2px(getContext(), 25);
             tv_dash_board_title.setPadding(0, dip2px(getContext(), 25), 0, 0);
         }
         tv_dash_board_title.setText("DashBoard");
