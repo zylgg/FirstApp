@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        StatusBarUtils.setTransparent(this);
+        StatusBarUtils.setTransparent(this);
 
         vp_content = findViewById(R.id.vp_content);
         navigation = findViewById(R.id.navigation);
