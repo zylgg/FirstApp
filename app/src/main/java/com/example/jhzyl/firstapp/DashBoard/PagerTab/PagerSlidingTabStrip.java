@@ -34,6 +34,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ import com.example.jhzyl.firstapp.R;
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     public static final int DEF_VALUE_TAB_TEXT_ALPHA = 150;
+    private static final String TAG = "PagerSlidingTabStrip";
     private static final int[] ANDROID_ATTRS = new int[]{
             android.R.attr.textColorPrimary,
             android.R.attr.padding,
@@ -55,7 +57,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             android.R.attr.paddingRight,
     };
 
-    //These indexes must be related with the ATTR array above
+    ///这些索引必须与上面的ATTR数组相关
     private static final int TEXT_COLOR_PRIMARY = 0;
     private static final int PADDING_INDEX = 1;
     private static final int PADDING_LEFT_INDEX = 2;
@@ -154,7 +156,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         a.recycle();
 
         String tabTextTypefaceName = "sans-serif";
-        // Use Roboto Medium as the default typeface from API 21 onwards
+        //从API 21开始使用Roboto媒体作为默认字体。
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             tabTextTypefaceName = "sans-serif-medium";
             mTabTextTypefaceStyle = Typeface.NORMAL;
@@ -182,24 +184,25 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         String fontFamily = a.getString(R.styleable.PagerSlidingTabStrip_pstsTabTextFontFamily);
         a.recycle();
 
-        //Tab text color selector
+        //颜色选择器
         if (mTabTextColor == null) {
-            mTabTextColor = createColorStateList( textPrimaryColor,textPrimaryColor,Color.argb(tabTextAlpha,
-                            Color.red(textPrimaryColor),
-                            Color.green(textPrimaryColor),
-                            Color.blue(textPrimaryColor)));
+            mTabTextColor = createColorStateList(textPrimaryColor, textPrimaryColor, Color.argb(
+                    tabTextAlpha,
+                    Color.red(textPrimaryColor),
+                    Color.green(textPrimaryColor),
+                    Color.blue(textPrimaryColor)));
         }
 
-        //Tab text typeface and style
+        //文本样式
         if (fontFamily != null) {
             tabTextTypefaceName = fontFamily;
         }
         mTabTextTypeface = Typeface.create(tabTextTypefaceName, mTabTextTypefaceStyle);
 
-        //Bottom padding for the tabs container parent view to show indicator and underline
+        //底部内边距，显示指示器和下划线
         setTabsContainerParentViewPaddings();
 
-        //Configure tab's container LayoutParams for either equal divided space or just wrap tabs
+        //配置选项卡的容器LayoutParams，可以用于相同的分隔空间，也可以仅用于包装选项卡。
         mTabLayoutParams = isExpandTabs ?
                 new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f) :
                 new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
@@ -228,7 +231,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         mTabCount = mPager.getAdapter().getCount();
         View tabView;
         for (int i = 0; i < mTabCount; i++) {
-            if (isCustomTabs) {
+            if (isCustomTabs) {//是否是自定义tab布局
                 tabView = ((CustomTabProvider) mPager.getAdapter()).getCustomTabView(this, i);
             } else {
                 tabView = LayoutInflater.from(getContext()).inflate(R.layout.psts_tab, this, false);
@@ -264,6 +267,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         mTabsContainer.addView(tabView, position, mTabLayoutParams);
     }
 
+    /**
+     * 更改tab样式
+     */
     private void updateTabStyles() {
         for (int i = 0; i < mTabCount; i++) {
             View v = mTabsContainer.getChildAt(i);
@@ -274,8 +280,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 tab_title.setTextColor(mTabTextColor);
                 tab_title.setTypeface(mTabTextTypeface, mTabTextTypefaceStyle);
                 tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTabTextSize);
-                // setAllCaps() is only available from API 14, so the upper case is made manually if we are on a
-                // pre-ICS-build
+                // 设置是否显示为大写形式
                 if (isTabTextAllCaps) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                         tab_title.setAllCaps(true);
@@ -294,33 +299,34 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
         int newScrollX = mTabsContainer.getChildAt(position).getLeft() + offset;
         if (position > 0 || offset > 0) {
-            //Half screen offset.
-            //- Either tabs start at the middle of the view scrolling straight away
-            //- Or tabs start at the begging (no padding) scrolling when indicator gets
-            //  to the middle of the view width
-            newScrollX -= mScrollOffset;
+            //光标滚动超过屏幕一半时，tab的父容器产生滚动
             Pair<Float, Float> lines = getIndicatorCoordinates();
             newScrollX += ((lines.second - lines.first) / 2);
+
+            newScrollX -= mScrollOffset;
         }
 
         if (newScrollX != mLastScrollX) {
             mLastScrollX = newScrollX;
+            Log.i(TAG, "scrollToChild: "+newScrollX);
             scrollTo(newScrollX, 0);
         }
     }
 
     public Pair<Float, Float> getIndicatorCoordinates() {
-        // default: line below current tab
+        //默认值:在当前标签下的行。
         View currentTab = mTabsContainer.getChildAt(mCurrentPosition);
         float lineLeft = currentTab.getLeft();
         float lineRight = currentTab.getRight();
-        // if there is an offset, start interpolating left and right coordinates between current and next tab
+        // 如果存在偏移，在当前和下一个选项卡之间开始插入左和右坐标。
         if (mCurrentPositionOffset > 0f && mCurrentPosition < mTabCount - 1) {
             View nextTab = mTabsContainer.getChildAt(mCurrentPosition + 1);
             final float nextTabLeft = nextTab.getLeft();
             final float nextTabRight = nextTab.getRight();
-            lineLeft = (mCurrentPositionOffset * nextTabLeft + (1f - mCurrentPositionOffset) * lineLeft);
-            lineRight = (mCurrentPositionOffset * nextTabRight + (1f - mCurrentPositionOffset) * lineRight);
+//            lineLeft = (mCurrentPositionOffset * nextTabLeft + (1f - mCurrentPositionOffset) * lineLeft);
+            lineLeft = lineLeft + mCurrentPositionOffset * (nextTabLeft - lineLeft);//同上（left即为当前tab宽度变化）
+//            lineRight = (mCurrentPositionOffset * nextTabRight + (1f - mCurrentPositionOffset) * lineRight);
+            lineRight = lineRight + mCurrentPositionOffset * (nextTabRight - lineRight);//同上（right即为下一个tab宽度变化）
         }
 
         return new Pair<>(lineLeft, lineRight);
@@ -339,13 +345,13 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             if (isPaddingMiddle) {
                 width = getWidth();
             } else {
-                // Account for manually set padding for offsetting tab start and end positions.
+                // 为抵消选项卡开始和结束位置手动设置填充。
                 width = getWidth() - mPaddingLeft - mPaddingRight;
             }
 
-            //Make sure tabContainer is bigger than the HorizontalScrollView to be able to scroll
+            //确保tabContainer比HorizontalScrollView更大，以便能够滚动。
             mTabsContainer.setMinimumWidth(width);
-            //Clipping padding to false to see the tabs while we pass them swiping
+            //当我们通过滑动时，将边距设置为false来查看选项卡。
             setClipToPadding(false);
         }
 
@@ -396,18 +402,14 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         }
     }
 
-    public void setOnTabReselectedListener(OnTabReselectedListener tabReselectedListener) {
-        this.mTabReselectedListener = tabReselectedListener;
-    }
-
-    public void setOnPageChangeListener(OnPageChangeListener listener) {
-        this.mDelegatePageListener = listener;
-    }
-
     private class PageListener implements OnPageChangeListener {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            Log.i(TAG, "position: " + position);
+            Log.i(TAG, "positionOffset: " + positionOffset);
+            Log.i(TAG, "positionOffsetPixels: " + positionOffsetPixels);
+
             mCurrentPosition = position;
             mCurrentPositionOffset = positionOffset;
             int offset = mTabCount > 0 ? (int) (positionOffset * mTabsContainer.getChildAt(position).getWidth()) : 0;
@@ -576,6 +578,16 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         };
     }
 
+
+    public void setOnTabReselectedListener(OnTabReselectedListener tabReselectedListener) {
+        this.mTabReselectedListener = tabReselectedListener;
+    }
+
+    public void setOnPageChangeListener(OnPageChangeListener listener) {
+        this.mDelegatePageListener = listener;
+    }
+
+
     public int getIndicatorColor() {
         return this.mIndicatorColor;
     }
@@ -633,20 +645,20 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     }
 
     public LinearLayout getTabsContainer() {
-         return mTabsContainer;
-     }
+        return mTabsContainer;
+    }
 
     public int getTabCount() {
-         return mTabCount;
-     }
+        return mTabCount;
+    }
 
     public int getCurrentPosition() {
-         return mCurrentPosition;
-     }
+        return mCurrentPosition;
+    }
 
     public float getCurrentPositionOffset() {
-         return mCurrentPositionOffset;
-     }
+        return mCurrentPositionOffset;
+    }
 
     public void setIndicatorColor(int indicatorColor) {
         this.mIndicatorColor = indicatorColor;
@@ -738,12 +750,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     private ColorStateList createColorStateList(int color_state_default) {
         return new ColorStateList(
-                new int[][]{
-                        new int[]{} //default
-                },
-                new int[]{
-                        color_state_default //default
-                }
+                new int[][]{new int[]{}},//default
+                new int[]{color_state_default}//default
         );
     }
 

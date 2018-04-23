@@ -19,8 +19,9 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="1dp"
         android:background="#317be9"
-        app:pstsIndicatorHeight="0px"
+        app:pstsDividerColor="@android:color/white"
         app:pstsTabTextColor="@drawable/tab_color_select"
         app:pstsIndicatorColor="@android:color/white"/>
 
