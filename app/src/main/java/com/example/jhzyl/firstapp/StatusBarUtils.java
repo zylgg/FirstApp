@@ -616,7 +616,6 @@ public class StatusBarUtils {
                 activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             }
             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
-
         } else {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }

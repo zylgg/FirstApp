@@ -25,6 +25,7 @@ public class DashBoardFragment extends Fragment {
     private ViewPager pager;
     private ImageView iv_dash_board_title;
     private TextView tv_dash_board_title;
+    private MutiProgress mp_3;
 
     @Nullable
     @Override
@@ -38,7 +39,9 @@ public class DashBoardFragment extends Fragment {
         Picasso.with(getContext()).load("http://inews.gtimg.com/newsapp_match/0/3348583155/0").into(iv_dash_board_title);
 
         tv_dash_board_title = view.findViewById(R.id.tv_dash_board_title);
-        tv_dash_board_title.setVisibility(View.GONE);
+        mp_3=view.findViewById(R.id.mp_3);
+        mp_3.setCurrNodeNO(5);
+
         tabs = view.findViewById(R.id.tabs);
         pager = view.findViewById(R.id.pager);
         if (Build.VERSION.SDK_INT >= 19) {

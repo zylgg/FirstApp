@@ -12,15 +12,72 @@
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/tv_dash_board_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#317be9"
-        android:fitsSystemWindows="true"
-        android:gravity="center"
-        android:text="@string/title_dashboard"
-        android:textColor="@android:color/white" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+        <TextView
+            android:id="@+id/tv_dash_board_title"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#317be9"
+            android:fitsSystemWindows="true"
+            android:gravity="center"
+            android:text="@string/title_dashboard"
+            android:textColor="@android:color/white" />
+
+        <com.example.jhzyl.firstapp.DashBoard.MutiProgress
+            android:id="@+id/mp_1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:currNodeNO="2"
+            app:currNodeState="1"
+            app:nodeRadius="10dp"
+            app:nodesNum="4"
+            app:processingLineColor="#7B68EE"
+            app:progresFailDrawable="@drawable/ic_error"
+            app:progresSuccDrawable="@drawable/ic_checked"
+
+            app:progressingDrawable="@drawable/ic_completed"
+            app:unprogressingDrawable="@drawable/ic_round_ddd" />
+
+        <com.example.jhzyl.firstapp.DashBoard.MutiProgress
+            android:id="@+id/mp_2"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/mp_1"
+            android:layout_marginTop="20dp"
+            app:currNodeNO="6"
+            app:currNodeState="1"
+            app:nodeRadius="6dp"
+            app:nodesNum="10"
+            app:processingLineColor="#ff0000"
+            app:progresFailDrawable="@drawable/ic_error"
+            app:progresSuccDrawable="@drawable/ic_checked"
+
+            app:progressingDrawable="@drawable/ic_completed"
+            app:unprogressingDrawable="@drawable/ic_round_ddd" />
+
+        <com.example.jhzyl.firstapp.DashBoard.MutiProgress
+            android:id="@+id/mp_3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/mp_2"
+            android:layout_marginTop="20dp"
+            app:currNodeNO="10"
+            app:currNodeState="0"
+            app:nodeRadius="4dp"
+            app:nodesNum="15"
+            app:processingLineColor="#FF00FF"
+            app:progresFailDrawable="@drawable/ic_error"
+            app:progresSuccDrawable="@drawable/ic_checked"
+
+            app:progressingDrawable="@drawable/ic_completed"
+            app:unprogressingDrawable="@drawable/ic_round_ddd" />
+    </LinearLayout>
 
     <com.example.jhzyl.firstapp.DashBoard.PagerTab.PagerSlidingTabStrip
         android:id="@+id/tabs"
@@ -31,6 +88,7 @@
         app:pstsDividerColor="@android:color/white"
         app:pstsIndicatorColor="@android:color/white"
         app:pstsTabTextColor="@drawable/tab_color_select" />
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
