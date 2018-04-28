@@ -6,18 +6,18 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_home_theme_pos"
+        android:id="@+id/tv_super_theme_pos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="pos" />
 
     <com.andview.refreshview.XRefreshView
-        android:id="@+id/xrv_home_theme"
+        android:id="@+id/xrv_super_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_home_theme_lists"
+            android:id="@+id/rv_super_theme_lists"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >

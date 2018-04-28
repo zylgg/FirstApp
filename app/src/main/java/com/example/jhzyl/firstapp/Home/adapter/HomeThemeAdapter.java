@@ -1,11 +1,13 @@
-package com.example.jhzyl.firstapp.Home;
+package com.example.jhzyl.firstapp.Home.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.jhzyl.firstapp.Home.HomeSuperFragment;
+import com.example.jhzyl.firstapp.Home.HomeThemeFragment;
+import com.example.jhzyl.firstapp.Home.OnVisibilityTitleListener;
 import com.example.jhzyl.firstapp.R;
 
 public class HomeThemeAdapter extends FragmentPagerAdapter {
@@ -21,6 +23,9 @@ public class HomeThemeAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        if (position==0){
+            return HomeSuperFragment.getInstance(position,onVisibilityTitleListener);
+        }
         return HomeThemeFragment.getInstance(position,onVisibilityTitleListener);
     }
 

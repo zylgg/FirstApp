@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -71,8 +72,9 @@ public class HomeThemeFragment extends Fragment {
         xrv_home_theme.setXRefreshViewListener(xRefreshViewListener);
         rv_home_theme_lists = view.findViewById(R.id.rv_home_theme_lists);
         rv_home_theme_lists.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_home_theme_lists.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         rv_home_theme_lists.setAdapter(new HomeThemeFragment.MyRvAdapter());
-        rv_home_theme_lists.addOnScrollListener(onScrollListener);
+        rv_home_theme_lists.addOnScrollListener(RvScrollListener.getInstance(onVisibilityTitleListener));
     }
 
     private XRefreshView.XRefreshViewListener xRefreshViewListener = new XRefreshView.SimpleXRefreshListener() {
@@ -99,34 +101,17 @@ public class HomeThemeFragment extends Fragment {
         }
     };
 
-    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            if (dy > 40) {//40，单次滚动的偏移（可自己定义）
-                //向上滑，隐藏
-                if (onVisibilityTitleListener != null) {
-                    onVisibilityTitleListener.hide();
-                }
-
-            } else if (dy < -40) {
-                //向下滑，打开
-                if (onVisibilityTitleListener != null) {
-                    onVisibilityTitleListener.open();
-                }
-            }
-        }
-    };
-
     private class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyHolder> {
 
         @Override
         public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Log.i(TAG, "onCreateViewHolder: "+viewType);
             return new MyHolder(LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, null));
         }
 
         @Override
         public void onBindViewHolder(MyHolder holder, int position) {
+            Log.i(TAG, "onBindViewHolder: "+position);
             holder.text1.setText(datas.get(position));
 
         }

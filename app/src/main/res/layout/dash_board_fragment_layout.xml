@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/rect_shape_bg">
 
     <ImageView
         android:id="@+id/iv_dash_board_title"
@@ -84,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_marginTop="1dp"
-        android:background="#317be9"
+        android:background="@color/colorAccent"
         app:pstsDividerColor="@android:color/white"
         app:pstsIndicatorColor="@android:color/white"
         app:pstsTabTextColor="@drawable/tab_color_select" />

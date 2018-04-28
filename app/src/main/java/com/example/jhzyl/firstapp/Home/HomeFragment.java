@@ -1,38 +1,26 @@
 package com.example.jhzyl.firstapp.Home;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.example.jhzyl.firstapp.Home.adapter.HomeThemeAdapter;
 import com.example.jhzyl.firstapp.MainActivity;
 import com.example.jhzyl.firstapp.R;
-
-import org.w3c.dom.Text;
+import com.example.jhzyl.firstapp.SystemAppUtils;
 
 public class HomeFragment extends Fragment implements OnVisibilityTitleListener {
 
@@ -55,9 +43,9 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
 
         scroll_max_height=tv_home_theme_title.getLayoutParams().height;
         if (Build.VERSION.SDK_INT >= 19) {
-            tv_home_theme_title.getLayoutParams().height=scroll_max_height+dip2px(getContext(),25);//25dp是状态栏高度
+            tv_home_theme_title.getLayoutParams().height=scroll_max_height+SystemAppUtils.dip2px(getContext(),25);//25dp是状态栏高度
 
-            tv_home_theme_title.setPadding(0,dip2px(getContext(),25),0,0);
+            tv_home_theme_title.setPadding(0, SystemAppUtils.dip2px(getContext(),25),0,0);
         }
         tl_home_tab = view.findViewById(R.id.tl_home_tab);
         vp_home_content = view.findViewById(R.id.vp_home_content);
@@ -67,11 +55,17 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
         vp_home_content.setAdapter(new HomeThemeAdapter(activity, this, activity.getSupportFragmentManager()));
         tl_home_tab.setupWithViewPager(vp_home_content);
     }
-    public static int dip2px(Context context, float dipValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
+    @Override
+    public void hide() {
+        if (ll_home_tab.getTranslationY() == 0)
+            createTranslate(false);
     }
 
+    @Override
+    public void open() {
+        if (ll_home_tab.getTranslationY() == (-scroll_max_height))
+            createTranslate(true);
+    }
 
     private void createTranslate(final boolean is_open) {
         final int colorAccent = getContext().getResources().getColor(R.color.colorAccent);
@@ -103,16 +97,5 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
         animation.start();
     }
 
-    @Override
-    public void hide() {
-        if (ll_home_tab.getTranslationY() == 0)
-            createTranslate(false);
-    }
-
-    @Override
-    public void open() {
-        if (ll_home_tab.getTranslationY() == (-scroll_max_height))
-            createTranslate(true);
-    }
 
 }

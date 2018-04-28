@@ -42,7 +42,10 @@ public class SystemAppUtils {
 
 		return totalHeight  - contentHeight;
 	}
-
+	public static int dip2px(Context context, float dipValue) {
+		final float scale = context.getResources().getDisplayMetrics().density;
+		return (int) (dipValue * scale + 0.5f);
+	}
 	/**
 	 * 标题栏高度
 	 * @return
