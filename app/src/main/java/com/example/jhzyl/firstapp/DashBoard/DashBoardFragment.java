@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +17,47 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.jhzyl.firstapp.DashBoard.PagerTab.PagerSlidingTabStrip;
+import com.example.jhzyl.firstapp.Home.HomeFragment;
+import com.example.jhzyl.firstapp.MainActivity;
+import com.example.jhzyl.firstapp.OnChangeStatusTextColorListener;
 import com.example.jhzyl.firstapp.R;
 import com.squareup.picasso.Picasso;
 
 public class DashBoardFragment extends Fragment {
 
+    private static final String TAG ="DashBoardFragment";
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
     private ImageView iv_dash_board_title;
     private TextView tv_dash_board_title;
     private MutiProgress mp_3;
+    private boolean isCreated;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isCreated=true;
+    }
 
+    private static OnChangeStatusTextColorListener onChangeStatusTextColorListener;
+
+    public static DashBoardFragment getInstance(OnChangeStatusTextColorListener listener) {
+        onChangeStatusTextColorListener = listener;
+        return new DashBoardFragment();
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.dash_board_fragment_layout, null);
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser&&isCreated){
+            Log.i(TAG, "setUserVisibleHint: ");
+            if (onChangeStatusTextColorListener!=null){
+                onChangeStatusTextColorListener.onChange(true);
+            }
+        }
     }
 
     @Override
@@ -39,7 +66,7 @@ public class DashBoardFragment extends Fragment {
         Picasso.with(getContext()).load("http://inews.gtimg.com/newsapp_match/0/3348583155/0").into(iv_dash_board_title);
 
         tv_dash_board_title = view.findViewById(R.id.tv_dash_board_title);
-        mp_3=view.findViewById(R.id.mp_3);
+        mp_3 = view.findViewById(R.id.mp_3);
         mp_3.setCurrNodeNO(5);
 
         tabs = view.findViewById(R.id.tabs);

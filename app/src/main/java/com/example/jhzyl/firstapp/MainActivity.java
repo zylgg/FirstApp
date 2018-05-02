@@ -11,31 +11,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.example.jhzyl.firstapp.DashBoard.DashBoardFragment;
 import com.example.jhzyl.firstapp.Home.HomeFragment;
 import com.example.jhzyl.firstapp.adapter.MyVpAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnChangeStatusTextColorListener {
 
     private static final String TAG = "MainActivity";
     private ViewPager vp_content;
-    private BottomNavigationView navigation;
+    private RadioGroup rg_bottom_menu;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
+    private RadioGroup.OnCheckedChangeListener onCheckedChangeListener
+            = new RadioGroup.OnCheckedChangeListener() {
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    vp_content.setCurrentItem(0);
-                    return true;
-                case R.id.navigation_dashboard:
-                    vp_content.setCurrentItem(1);
-                    return true;
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            View viewById = group.findViewById(checkedId);
+            if (viewById==group.getChildAt(0)){
+                vp_content.setCurrentItem(0);
             }
-            return false;
+            vp_content.setCurrentItem(1);
         }
     };
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -46,7 +43,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-            navigation.getMenu().getItem(position).setChecked(true);
+            int checkedRadioButtonId = rg_bottom_menu.getCheckedRadioButtonId();
+            RadioButton lastRB = rg_bottom_menu.findViewById(checkedRadioButtonId);
+            lastRB.setChecked(false);
+
+            ((RadioButton)rg_bottom_menu.getChildAt(position)).setChecked(true);
+//            setStatusBarTextColor(position==1?true:false);
         }
 
         @Override
@@ -63,16 +65,26 @@ public class MainActivity extends AppCompatActivity {
         StatusBarUtils.setTransparent(this);
 
         vp_content = findViewById(R.id.vp_content);
-        navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        rg_bottom_menu = findViewById(R.id.rg_bottom_menu);
+        rg_bottom_menu.setOnCheckedChangeListener(onCheckedChangeListener);
 
         MyVpAdapter myVpAdapter = new MyVpAdapter(getSupportFragmentManager());
-        myVpAdapter.addFragment(new HomeFragment());
-        myVpAdapter.addFragment(new DashBoardFragment());
+        myVpAdapter.addFragment(HomeFragment.getInstance(this));
+        myVpAdapter.addFragment(DashBoardFragment.getInstance(this));
         vp_content.setAdapter(myVpAdapter);
         vp_content.addOnPageChangeListener(onPageChangeListener);
+        vp_content.setOffscreenPageLimit(1);
 
+    }
+
+    @Override
+    public void onChange(boolean isBlack) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int color = isBlack ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : View.SYSTEM_UI_FLAG_VISIBLE;
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | color);
+        }
     }
 
 
 }
+

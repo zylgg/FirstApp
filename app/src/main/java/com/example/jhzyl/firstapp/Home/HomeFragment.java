@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +20,47 @@ import android.widget.TextView;
 
 import com.example.jhzyl.firstapp.Home.adapter.HomeThemeAdapter;
 import com.example.jhzyl.firstapp.MainActivity;
+import com.example.jhzyl.firstapp.OnChangeStatusTextColorListener;
 import com.example.jhzyl.firstapp.R;
 import com.example.jhzyl.firstapp.SystemAppUtils;
 
 public class HomeFragment extends Fragment implements OnVisibilityTitleListener {
 
+    private static final String TAG = "HomeFragment";
     LinearLayout ll_home_tab;
     TabLayout tl_home_tab;
     ViewPager vp_home_content;
     TextView tv_home_theme_title;
-    private int scroll_max_height = 56*3;
+    private int scroll_max_height = 56 * 3;
+    private boolean isCreated;
+    private static OnChangeStatusTextColorListener onChangeStatusTextColorListener;
+
+    public static HomeFragment  getInstance(OnChangeStatusTextColorListener listener) {
+        onChangeStatusTextColorListener = listener;
+        return new HomeFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isCreated = true;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.home_fragment_layout, null);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isCreated) {
+            Log.i(TAG, "setUserVisibleHint: ");
+            if (onChangeStatusTextColorListener!=null){
+                onChangeStatusTextColorListener.onChange(false);
+            }
+        }
     }
 
     @Override
@@ -41,11 +69,11 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
         ll_home_tab = view.findViewById(R.id.ll_home_tab);
         tv_home_theme_title = view.findViewById(R.id.tv_home_theme_title);
 
-        scroll_max_height=tv_home_theme_title.getLayoutParams().height;
+        scroll_max_height = tv_home_theme_title.getLayoutParams().height;
         if (Build.VERSION.SDK_INT >= 19) {
-            tv_home_theme_title.getLayoutParams().height=scroll_max_height+SystemAppUtils.dip2px(getContext(),25);//25dp是状态栏高度
+            tv_home_theme_title.getLayoutParams().height = scroll_max_height + SystemAppUtils.dip2px(getContext(), 25);//25dp是状态栏高度
 
-            tv_home_theme_title.setPadding(0, SystemAppUtils.dip2px(getContext(),25),0,0);
+            tv_home_theme_title.setPadding(0, SystemAppUtils.dip2px(getContext(), 25), 0, 0);
         }
         tl_home_tab = view.findViewById(R.id.tl_home_tab);
         vp_home_content = view.findViewById(R.id.vp_home_content);
@@ -55,6 +83,7 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
         vp_home_content.setAdapter(new HomeThemeAdapter(activity, this, activity.getSupportFragmentManager()));
         tl_home_tab.setupWithViewPager(vp_home_content);
     }
+
     @Override
     public void hide() {
         if (ll_home_tab.getTranslationY() == 0)

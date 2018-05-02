@@ -17,6 +17,7 @@
 package com.example.jhzyl.firstapp.DashBoard;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.view.Gravity;
@@ -49,10 +50,20 @@ public class SuperAwesomeCardFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(android.R.layout.simple_list_item_1,null);
+        View view = inflater.inflate(android.R.layout.simple_list_item_1,container,false);
 		TextView text1=view.findViewById(android.R.id.text1);
 		text1.setGravity(Gravity.CENTER);
 		text1.setText("CARD " + position);
+
+
+        ViewGroup viewParent= (ViewGroup) view.getParent();
+        if (viewParent!=null){
+			viewParent.removeView(view);
+		}
 		return view;
+	}
+
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 	}
 }
