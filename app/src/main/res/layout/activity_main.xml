@@ -26,7 +26,6 @@
         android:id="@+id/rg_bottom_menu"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="?android:attr/windowBackground"
         android:orientation="horizontal"
         >
         <RadioButton

@@ -24,15 +24,14 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
     private ViewPager vp_content;
     private RadioGroup rg_bottom_menu;
 
-    private RadioGroup.OnCheckedChangeListener onCheckedChangeListener
-            = new RadioGroup.OnCheckedChangeListener() {
+    private RadioGroup.OnCheckedChangeListener onCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            View viewById = group.findViewById(checkedId);
-            if (viewById==group.getChildAt(0)){
+            if (checkedId==R.id.rb_home){
                 vp_content.setCurrentItem(0);
+            }else{
+                vp_content.setCurrentItem(1);
             }
-            vp_content.setCurrentItem(1);
         }
     };
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -46,11 +45,8 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
             int checkedRadioButtonId = rg_bottom_menu.getCheckedRadioButtonId();
             RadioButton lastRB = rg_bottom_menu.findViewById(checkedRadioButtonId);
             lastRB.setChecked(false);
-
             ((RadioButton)rg_bottom_menu.getChildAt(position)).setChecked(true);
-//            setStatusBarTextColor(position==1?true:false);
         }
-
         @Override
         public void onPageScrollStateChanged(int state) {
 
@@ -75,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
         vp_content.addOnPageChangeListener(onPageChangeListener);
         vp_content.setOffscreenPageLimit(1);
 
+        ((RadioButton)rg_bottom_menu.getChildAt(0)).setChecked(true);
+        onChange(true);
     }
 
     @Override
@@ -84,7 +82,5 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | color);
         }
     }
-
-
 }
 

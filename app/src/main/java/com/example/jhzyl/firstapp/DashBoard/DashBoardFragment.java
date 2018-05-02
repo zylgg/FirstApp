@@ -55,7 +55,7 @@ public class DashBoardFragment extends Fragment {
         if (isVisibleToUser&&isCreated){
             Log.i(TAG, "setUserVisibleHint: ");
             if (onChangeStatusTextColorListener!=null){
-                onChangeStatusTextColorListener.onChange(true);
+                onChangeStatusTextColorListener.onChange(false);
             }
         }
     }

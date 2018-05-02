@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
         if (isVisibleToUser && isCreated) {
             Log.i(TAG, "setUserVisibleHint: ");
             if (onChangeStatusTextColorListener!=null){
-                onChangeStatusTextColorListener.onChange(false);
+                onChangeStatusTextColorListener.onChange(true);
             }
         }
     }
