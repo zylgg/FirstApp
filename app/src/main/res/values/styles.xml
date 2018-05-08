@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--<style name="Animtop">-->
+        <!--<item name="windowEnterAnimation">@anim/animtop_enter</item>-->
+        <!--<item name="windowExitAnimation">@anim/toast_exit</item>-->
+    <!--</style>-->
+    <style name="toast_anim">
+        <item name="android:windowEnterAnimation">@anim/animtop_enter</item>
+        <item name="android:windowExitAnimation">@anim/animtop_exit</item>
+    </style>
+
 </resources>

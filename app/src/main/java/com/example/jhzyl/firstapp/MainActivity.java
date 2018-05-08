@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
             }else{
                 vp_content.setCurrentItem(1);
             }
+            MyToast.T(MainActivity.this,"checkedId:"+checkedId);
         }
     };
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
