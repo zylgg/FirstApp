@@ -3,7 +3,9 @@ package com.example.jhzyl.firstapp.DashBoard;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,7 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.andview.refreshview.XRefreshView;
 import com.example.jhzyl.firstapp.DashBoard.PagerTab.PagerSlidingTabStrip;
 import com.example.jhzyl.firstapp.Home.HomeFragment;
 import com.example.jhzyl.firstapp.MainActivity;
@@ -29,9 +33,9 @@ public class DashBoardFragment extends Fragment {
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
     private ImageView iv_dash_board_title;
-    private TextView tv_dash_board_title;
-    private MutiProgress mp_3;
     private boolean isCreated;
+    private XRefreshView xrv_refresh_all;
+    private AppBarLayout app_bar;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,23 +66,44 @@ public class DashBoardFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        app_bar=view.findViewById(R.id.app_bar);
         iv_dash_board_title = view.findViewById(R.id.iv_dash_board_title);
-        Picasso.with(getContext()).load("http://inews.gtimg.com/newsapp_match/0/3348583155/0").into(iv_dash_board_title);
-
-        tv_dash_board_title = view.findViewById(R.id.tv_dash_board_title);
-        mp_3 = view.findViewById(R.id.mp_3);
-        mp_3.setCurrNodeNO(5);
-
         tabs = view.findViewById(R.id.tabs);
         pager = view.findViewById(R.id.pager);
-        if (Build.VERSION.SDK_INT >= 19) {
-            //25dp是状态栏高度
-            tv_dash_board_title.getLayoutParams().height = tv_dash_board_title.getLayoutParams().height + dip2px(getContext(), 25);
-            tv_dash_board_title.setPadding(0, dip2px(getContext(), 25), 0, 0);
-        }
-        tv_dash_board_title.setText("DashBoard");
 
+//        xrv_refresh_all=view.findViewById(R.id.xrv_refresh_all);
+//        xrv_refresh_all.setPullRefreshEnable(true);
+//        xrv_refresh_all.setPullLoadEnable(false);
+//        xrv_refresh_all.disallowInterceptTouchEvent(true);
+//        xrv_refresh_all.enableRecyclerViewPullUp(false);
 
+        app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                xrv_refresh_all.disallowInterceptTouchEvent(true);
+                if (Math.abs(verticalOffset)==iv_dash_board_title.getHeight()){
+                    Toast.makeText(getActivity(),"完全关闭",Toast.LENGTH_SHORT).show();
+                }else if (verticalOffset==0){
+//                    xrv_refresh_all.disallowInterceptTouchEvent(false);
+                    Toast.makeText(getActivity(),"完全打开",Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "verticalOffset: "+verticalOffset);
+            }
+        });
+//        xrv_refresh_all.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener(){
+//            @Override
+//            public void onRefresh(boolean isPullDown) {
+//                super.onRefresh(isPullDown);
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                       xrv_refresh_all.stopRefresh();
+//                       Toast.makeText(getActivity(),"刷新完了",Toast.LENGTH_SHORT).show();
+//                    }
+//                },1000);
+//            }
+//        });
+        Picasso.with(getContext()).load("http://inews.gtimg.com/newsapp_match/0/3348583155/0").into(iv_dash_board_title);
         pager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager()));
         tabs.setViewPager(pager);
 

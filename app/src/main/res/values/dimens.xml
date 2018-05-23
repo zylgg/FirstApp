@@ -2,4 +2,32 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- 刷新 -->
+    <string name="pull_to_refresh_footer_release_label">松开后加载</string>
+    <string name="pull_to_refresh_footer_pull_label">加载更多</string>
+    <string name="pull_to_refresh_footer_refreshing_label">加载中\u2026</string>
+    <string name="pull_to_refresh_pull_label">下拉可以刷新</string>
+    <string name="pull_to_refresh_pull_label_time"></string>
+    <string name="pull_to_refresh_release_label">松开可以刷新</string>
+    <string name="pull_to_refresh_refreshing_label">刷新中&#8230;</string>
+    <string name="pull_to_refresh_tap_label">Tap to refresh&#8230;</string>
+    <string name="ganggang">刚刚</string>
+    <string name="fz10">10分钟前</string>
+    <string name="fz20">20分钟前</string>
+    <string name="fz30">30分钟前</string>
+    <string name="fz40">40分钟前</string>
+    <string name="fz50">50分钟前</string>
+    <string name="xs1">1小时前</string>
+    <string name="xs3">3小时前</string>
+    <string name="xs5">5小时前</string>
+    <string name="xs10">10小时前</string>
+    <string name="xs20">20小时前</string>
+    <string name="yue">月</string>
+    <string name="ri">日</string>
+    <string name="beforefz">分钟前</string>
+    <string name="beforexs">小时前</string>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

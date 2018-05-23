@@ -113,8 +113,10 @@ public class HomeSuperFragment extends Fragment {
             return new HomeSuperFragment.MyRvAdapter.MyHolder(view);
         }
 
+        int count=0;
         @Override
         public void onBindViewHolder(HomeSuperFragment.MyRvAdapter.MyHolder holder, int position) {
+            Log.i("move_count:", ""+(count++));
             SuperEntity entity = datas.get(position);
             StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
             if (entity.getType() == SuperEntity.BigItemType) {

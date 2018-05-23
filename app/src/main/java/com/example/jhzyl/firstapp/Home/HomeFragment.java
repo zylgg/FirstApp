@@ -112,6 +112,8 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) vp_home_content.getLayoutParams();
                     layoutParams.topMargin = (int) (scroll_max_height * (animatedValue - 1));
                     vp_home_content.setLayoutParams(layoutParams);
+//                    vp_home_content.setPadding(0,(int) (-scroll_max_height * animatedValue),0,0);
+//                    vp_home_content.setY(scroll_max_height * (animatedValue - 1));
                 } else {//向上 隐藏
                     ll_home_tab.setTranslationY(-scroll_max_height * animatedValue);
                     tv_home_theme_title.setTextColor(ColorUtils.blendARGB(Color.WHITE, colorAccent, animatedValue));
@@ -119,6 +121,8 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener 
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) vp_home_content.getLayoutParams();
                     layoutParams.topMargin = (int) (-scroll_max_height * animatedValue);
                     vp_home_content.setLayoutParams(layoutParams);
+//                    vp_home_content.setPadding(0, (int) (-scroll_max_height * animatedValue),0,0);
+//                    vp_home_content.setY(-scroll_max_height * animatedValue);
                 }
 
             }

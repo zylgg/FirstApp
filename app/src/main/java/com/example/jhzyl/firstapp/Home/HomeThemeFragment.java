@@ -49,6 +49,7 @@ public class HomeThemeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_theme_fragment_layout, null);
+        datas.clear();
         ViewGroup parent = (ViewGroup) view.getParent();
         if (parent != null) {
             parent.removeView(view);
@@ -101,6 +102,7 @@ public class HomeThemeFragment extends Fragment {
         }
     };
 
+    int count=0;
     private class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyHolder> {
 
         @Override
@@ -111,6 +113,8 @@ public class HomeThemeFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(MyHolder holder, int position) {
+            count++;
+            Log.i(TAG, "count: "+count);
             Log.i(TAG, "onBindViewHolder: "+position);
             holder.text1.setText(datas.get(position));
 
