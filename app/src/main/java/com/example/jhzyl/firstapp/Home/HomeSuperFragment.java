@@ -30,7 +30,6 @@ import java.util.Random;
 
 
 public class HomeSuperFragment extends Fragment {
-    public static final String TAG = "HomeThemeFragment";
     private static OnVisibilityTitleListener onVisibilityTitleListener;
     private RecyclerView rv_super_theme_lists;
     private XRefreshView xrv_super_theme;

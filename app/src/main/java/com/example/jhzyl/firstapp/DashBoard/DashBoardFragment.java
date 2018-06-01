@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -27,6 +28,8 @@ import com.example.jhzyl.firstapp.OnChangeStatusTextColorListener;
 import com.example.jhzyl.firstapp.R;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class DashBoardFragment extends Fragment {
 
     private static final String TAG ="DashBoardFragment";
@@ -36,6 +39,7 @@ public class DashBoardFragment extends Fragment {
     private boolean isCreated;
     private XRefreshView xrv_refresh_all;
     private AppBarLayout app_bar;
+    private CoordinatorLayout cl;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,43 +70,28 @@ public class DashBoardFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        cl=view.findViewById(R.id.cl);
+
         app_bar=view.findViewById(R.id.app_bar);
         iv_dash_board_title = view.findViewById(R.id.iv_dash_board_title);
         tabs = view.findViewById(R.id.tabs);
         pager = view.findViewById(R.id.pager);
-
-//        xrv_refresh_all=view.findViewById(R.id.xrv_refresh_all);
-//        xrv_refresh_all.setPullRefreshEnable(true);
-//        xrv_refresh_all.setPullLoadEnable(false);
-//        xrv_refresh_all.disallowInterceptTouchEvent(true);
-//        xrv_refresh_all.enableRecyclerViewPullUp(false);
-
         app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                xrv_refresh_all.disallowInterceptTouchEvent(true);
-                if (Math.abs(verticalOffset)==iv_dash_board_title.getHeight()){
-                    Toast.makeText(getActivity(),"完全关闭",Toast.LENGTH_SHORT).show();
-                }else if (verticalOffset==0){
-//                    xrv_refresh_all.disallowInterceptTouchEvent(false);
-                    Toast.makeText(getActivity(),"完全打开",Toast.LENGTH_SHORT).show();
-                }
                 Log.i(TAG, "verticalOffset: "+verticalOffset);
+                if (Math.abs(verticalOffset)==iv_dash_board_title.getHeight()){
+//                    Toast.makeText(getActivity(),"完全关闭",Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.whileClose);
+                }else if (verticalOffset==0){
+//                    Toast.makeText(getActivity(),"完全打开",Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.whileOpen);
+                }else{
+                    EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.other);
+                }
+
             }
         });
-//        xrv_refresh_all.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener(){
-//            @Override
-//            public void onRefresh(boolean isPullDown) {
-//                super.onRefresh(isPullDown);
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                       xrv_refresh_all.stopRefresh();
-//                       Toast.makeText(getActivity(),"刷新完了",Toast.LENGTH_SHORT).show();
-//                    }
-//                },1000);
-//            }
-//        });
         Picasso.with(getContext()).load("http://inews.gtimg.com/newsapp_match/0/3348583155/0").into(iv_dash_board_title);
         pager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager()));
         tabs.setViewPager(pager);
@@ -117,8 +106,10 @@ public class DashBoardFragment extends Fragment {
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
         private final String[] TITLES = {
-                "A____A", "BB", "C____C", "DDDDDDDDDDDD",
-                "E____E", "F____F", "G____G", "H____H"};
+                "A____A", "BB", "C____C"
+                , "DDDDDDDDDDDD"
+//                , "E____E", "F____F", "G____G", "H____H"
+        };
 
         MyPagerAdapter(FragmentManager fm) {
             super(fm);

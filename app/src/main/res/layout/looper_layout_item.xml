@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/ll_qgp_mine_fragment_logistics"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#16CFAD5B"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" >
+
+        <ImageView
+            android:id="@+id/iv_qgp_mine_fragment_logistics_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/qgp_load_img_fail" />
+
+        <TextView
+            android:id="@+id/tv_qgp_mine_fragment_logistics_Remarked"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="4.5dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="您购买的一件商品正在配送中，配送员：A某人"
+            android:textColor="#666666"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_qgp_mine_fragment_logistics_shipmentsTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="7.5dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="多久前"
+            android:textColor="#999999"
+            android:textSize="11dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/qgp_mine_fragment_torightsmall" />
+    </LinearLayout>
+</LinearLayout>

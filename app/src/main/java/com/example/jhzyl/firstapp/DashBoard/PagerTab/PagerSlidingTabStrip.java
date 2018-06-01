@@ -227,6 +227,14 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             CharSequence title = mPager.getAdapter().getPageTitle(i);
             addTab(i, title, tabView);
         }
+        //测量宽度，
+        mTabsContainer.measure(0,0);
+        Log.i("mTabsContainer_width",""+mTabsContainer.getMeasuredWidth());
+        if (mTabsContainer.getWidth()>getContext().getResources().getDisplayMetrics().widthPixels){
+            setShouldExpand(false);
+        }else{
+            setShouldExpand(true);
+        }
 
         updateTabStyles();
     }
@@ -250,7 +258,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 }
             }
         });
-
+//        mTabLayoutParams.leftMargin
         mTabsContainer.addView(tabView, position, mTabLayoutParams);
     }
 
@@ -337,7 +345,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             }
 
             //确保tabContainer比HorizontalScrollView更大，以便能够滚动。
-            mTabsContainer.setMinimumWidth(width);
+//            mTabsContainer.setMinimumWidth(width);
             //当我们通过滑动时，将边距设置为false来查看选项卡。控件的绘制区域是否在padding里面的
             setClipToPadding(false);
         }
@@ -703,9 +711,14 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     }
 
     public void setShouldExpand(boolean shouldExpand) {
+        if (this.isExpandTabs==shouldExpand)return;
         this.isExpandTabs = shouldExpand;
+        //配置选项卡的容器LayoutParams，可以用于相同的分隔空间，也可以仅用于包装选项卡。
+        mTabLayoutParams = isExpandTabs ?
+                new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f) :
+                new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         if (mPager != null) {
-            requestLayout();
+            notifyDataSetChanged();
         }
     }
 

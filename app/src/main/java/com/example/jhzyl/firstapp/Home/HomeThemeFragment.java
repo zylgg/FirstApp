@@ -18,6 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
+import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
+import com.example.jhzyl.firstapp.CustomFooterView;
 import com.example.jhzyl.firstapp.R;
 
 import java.util.ArrayList;
@@ -71,10 +73,18 @@ public class HomeThemeFragment extends Fragment {
         tv_home_theme_pos.setText("pos:" + pos);
         xrv_home_theme = view.findViewById(R.id.xrv_home_theme);
         xrv_home_theme.setXRefreshViewListener(xRefreshViewListener);
+        xrv_home_theme.setPullRefreshEnable(true);
+        xrv_home_theme.setPullLoadEnable(true);
+
+        xrv_home_theme.setSilenceLoadMore(true);
+        xrv_home_theme.setPreLoadCount(1);
+
         rv_home_theme_lists = view.findViewById(R.id.rv_home_theme_lists);
         rv_home_theme_lists.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_home_theme_lists.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        rv_home_theme_lists.setAdapter(new HomeThemeFragment.MyRvAdapter());
+        MyRvAdapter myRvAdapter = new MyRvAdapter();
+        myRvAdapter.setCustomLoadMoreView(new CustomFooterView(getContext()));
+        rv_home_theme_lists.setAdapter(myRvAdapter);
         rv_home_theme_lists.addOnScrollListener(RvScrollListener.getInstance(onVisibilityTitleListener));
     }
 
@@ -93,37 +103,49 @@ public class HomeThemeFragment extends Fragment {
 
                         datas.clear();
                         for (int i = 0; i < 40; i++) {
-                            datas.add("itemm:" + i + "_刷新次数-" + fragTabMap.get(pos));
+                            datas.add("item:" + i + "_刷新次数-" + fragTabMap.get(pos));
                         }
                         rv_home_theme_lists.getAdapter().notifyDataSetChanged();
                     }
                 }
             }, 1500);
         }
-    };
-
-    int count=0;
-    private class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyHolder> {
 
         @Override
-        public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            Log.i(TAG, "onCreateViewHolder: "+viewType);
+        public void onLoadMore(boolean isSilence) {
+            super.onLoadMore(isSilence);
+            Log.i(TAG, "onLoadMore: "+isSilence);
+            if (xrv_home_theme.mPullLoading||isSilence) {
+                xrv_home_theme.stopLoadMore();
+                for (int i = 0; i < 5; i++) {
+                    datas.add("more_item:" + i );
+                }
+                rv_home_theme_lists.getAdapter().notifyDataSetChanged();
+            }
+        }
+    };
+
+    private class MyRvAdapter extends BaseRecyclerAdapter<MyRvAdapter.MyHolder> {
+        @Override
+        public MyHolder getViewHolder(View view) {
+            return new MyHolder(view);
+        }
+
+        @Override
+        public MyHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
             return new MyHolder(LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, null));
         }
 
         @Override
-        public void onBindViewHolder(MyHolder holder, int position) {
-            count++;
-            Log.i(TAG, "count: "+count);
-            Log.i(TAG, "onBindViewHolder: "+position);
+        public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
             holder.text1.setText(datas.get(position));
-
         }
 
         @Override
-        public int getItemCount() {
+        public int getAdapterItemCount() {
             return datas.size();
         }
+
 
         class MyHolder extends RecyclerView.ViewHolder {
             TextView text1;

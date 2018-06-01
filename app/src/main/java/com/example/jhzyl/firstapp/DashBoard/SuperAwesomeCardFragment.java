@@ -17,11 +17,13 @@
 package com.example.jhzyl.firstapp.DashBoard;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,15 +35,19 @@ import android.widget.TextView;
 import com.andview.refreshview.XRefreshView;
 import com.example.jhzyl.firstapp.R;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class SuperAwesomeCardFragment extends Fragment {
 
     private static final String ARG_POSITION = "position";
-
-
+    private XRefreshView xrv_my_refreshview;
     private int position;
 
     public static SuperAwesomeCardFragment newInstance(int position) {
@@ -55,6 +61,7 @@ public class SuperAwesomeCardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         position = getArguments().getInt(ARG_POSITION);
     }
 
@@ -68,13 +75,29 @@ public class SuperAwesomeCardFragment extends Fragment {
         return view;
     }
 
+    public enum PullState {
+        whileOpen, whileClose, other;
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setXRefreshViewDisallow(PullState state) {
+        boolean is_open=(state==PullState.whileOpen);
+        Log.i("TAG", "setXRefreshViewDisallow: "+is_open);
+        xrv_my_refreshview.disallowInterceptTouchEvent(!is_open);//如果是打开了，不拦截
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        XRefreshView xrv_my_refreshview=view.findViewById(R.id.xrv_my_refreshview);
-        xrv_my_refreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener(){
+        xrv_my_refreshview = view.findViewById(R.id.xrv_my_refreshview);
+        xrv_my_refreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             @Override
             public void onRefresh(boolean isPullDown) {
                 super.onRefresh(isPullDown);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        xrv_my_refreshview.stopRefresh();
+                    }
+                }, 1000);
             }
         });
 

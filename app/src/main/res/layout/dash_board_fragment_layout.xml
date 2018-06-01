@@ -5,12 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<com.andview.refreshview.XRefreshView-->
-        <!--android:id="@+id/xrv_refresh_all"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-    <!--</com.andview.refreshview.XRefreshView>-->
-
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/cl"
             android:layout_width="match_parent"
@@ -36,7 +30,8 @@
                     android:layout_height="45dp"
                     app:pstsDividerColor="@android:color/white"
                     app:pstsIndicatorColor="@android:color/white"
-                    app:pstsTabTextColor="@drawable/tab_color_select" />
+                    app:pstsTabTextColor="@drawable/tab_color_select"
+                    app:pstsTabPaddingLeftRight="0dp"/>
 
             </android.support.design.widget.AppBarLayout>
 
