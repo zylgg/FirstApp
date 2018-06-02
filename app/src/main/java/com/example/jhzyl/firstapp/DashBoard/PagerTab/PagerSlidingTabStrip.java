@@ -227,16 +227,15 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             CharSequence title = mPager.getAdapter().getPageTitle(i);
             addTab(i, title, tabView);
         }
+        updateTabStyles();
         //测量宽度，
         mTabsContainer.measure(0,0);
         Log.i("mTabsContainer_width",""+mTabsContainer.getMeasuredWidth());
-        if (mTabsContainer.getWidth()>getContext().getResources().getDisplayMetrics().widthPixels){
-            setShouldExpand(false);
-        }else{
+        if (mTabsContainer.getMeasuredWidth()<=getContext().getResources().getDisplayMetrics().widthPixels){
             setShouldExpand(true);
+        }else{
+            setShouldExpand(false);
         }
-
-        updateTabStyles();
     }
 
     private void addTab(final int position, CharSequence title, View tabView) {
@@ -269,7 +268,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         for (int i = 0; i < mTabCount; i++) {
             View v = mTabsContainer.getChildAt(i);
             v.setBackgroundResource(mTabBackgroundResId);
-            v.setPadding(mTabPadding, v.getPaddingTop(), mTabPadding, v.getPaddingBottom());
+            if(!isExpandTabs)v.setPadding(mTabPadding, v.getPaddingTop(), mTabPadding, v.getPaddingBottom());
             TextView tab_title = (TextView) v.findViewById(R.id.psts_tab_title);
             if (tab_title != null) {
                 tab_title.setTextColor(mTabTextColor);
@@ -345,7 +344,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             }
 
             //确保tabContainer比HorizontalScrollView更大，以便能够滚动。
-//            mTabsContainer.setMinimumWidth(width);
+            mTabsContainer.setMinimumWidth(width);
             //当我们通过滑动时，将边距设置为false来查看选项卡。控件的绘制区域是否在padding里面的
             setClipToPadding(false);
         }
