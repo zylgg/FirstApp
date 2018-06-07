@@ -3,25 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
     tools:context=".ref.NoViewHolderListActivity">
 
-    <com.example.jhzyl.firstapp.ref.PullToRefreshViewBtp
-        android:id="@+id/prv_no_view_holder"
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrefreshview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="#fff">
 
-        <GridView
-            android:id="@+id/gv_no_view_holder"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_test_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:horizontalSpacing="6dp"
-            android:numColumns="2"
-            android:listSelector="#00000000"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="6dp"/>
-
-    </com.example.jhzyl.firstapp.ref.PullToRefreshViewBtp>
+            android:layout_margin="2dp"
+            android:background="#bbccaa"
+            android:scrollbars="vertical" />
+    </com.andview.refreshview.XRefreshView>
 </LinearLayout>

@@ -33,6 +33,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
+import com.andview.refreshview.XRefreshViewFooter;
+import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
+import com.example.jhzyl.firstapp.CustomFooterView;
 import com.example.jhzyl.firstapp.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,7 +44,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class SuperAwesomeCardFragment extends Fragment {
@@ -78,40 +80,79 @@ public class SuperAwesomeCardFragment extends Fragment {
     public enum PullState {
         whileOpen, whileClose, other;
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setXRefreshViewDisallow(PullState state) {
-        boolean is_open=(state==PullState.whileOpen);
-        Log.i("TAG", "setXRefreshViewDisallow: "+is_open);
+        boolean is_open = (state == PullState.whileOpen);
+        Log.i("TAG", "setXRefreshViewDisallow: " + is_open);
         xrv_my_refreshview.disallowInterceptTouchEvent(!is_open);//如果是打开了，不拦截
     }
 
+    RecyclerView rv_my_listView;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        rv_my_listView = view.findViewById(R.id.rv_my_listView);
+        rv_my_listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_my_listView.setHasFixedSize(true);
         xrv_my_refreshview = view.findViewById(R.id.xrv_my_refreshview);
+        if (mAdapter == null) {
+            mAdapter = new MyAdapter(mLists);
+            mAdapter.setCustomLoadMoreView(new XRefreshViewFooter(getContext()));
+            rv_my_listView.setAdapter(mAdapter);
+        }
+
+        xrv_my_refreshview.setPinnedTime(1000);
+        xrv_my_refreshview.setPullRefreshEnable(true);
+        xrv_my_refreshview.setPullLoadEnable(true);
+        xrv_my_refreshview.setAutoLoadMore(false);
+        xrv_my_refreshview.enableReleaseToLoadMore(true);
+        xrv_my_refreshview.enableRecyclerViewPullUp(true);
+        xrv_my_refreshview.enablePullUpWhenLoadCompleted(true);
+
         xrv_my_refreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             @Override
             public void onRefresh(boolean isPullDown) {
-                super.onRefresh(isPullDown);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        xrv_my_refreshview.stopRefresh();
+                        refreshData();
                     }
                 }, 1000);
             }
+
+            @Override
+            public void onLoadMore(boolean isSilence) {
+                loadMore();
+            }
         });
 
-        RecyclerView rv_my_listView = view.findViewById(R.id.rv_my_listView);
-        rv_my_listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<String> mLists = new ArrayList<>();
-        mLists.add("CARD " + position);
-        for (int i = 0; i < 50; i++) {
-            mLists.add("pos：" + i + "\n");
-        }
-        rv_my_listView.setAdapter(new MyAdapter(mLists));
+        xrv_my_refreshview.startRefresh();
     }
 
-    class MyAdapter extends RecyclerView.Adapter {
+    List<String> mLists = new ArrayList<>();
+    MyAdapter mAdapter;
+
+    private void refreshData() {
+        mLists.clear();
+        mLists.add("CARD " + position);
+        for (int i = 0; i < 20; i++) {
+            mLists.add("pos：" + i + "\n");
+        }
+        mAdapter.notifyDataSetChanged();
+        xrv_my_refreshview.stopRefresh();
+    }
+
+    private void loadMore() {
+        for (int i = 0; i < 20; i++) {
+            mAdapter.insert("pos_new：" + i + "\n",
+                    mAdapter.getAdapterItemCount());
+        }
+        xrv_my_refreshview.stopLoadMore(true);
+    }
+
+
+    class MyAdapter extends BaseRecyclerAdapter<MyHolder> {
         private List<String> mLists = new ArrayList<>();
 
         public MyAdapter(List<String> mLists) {
@@ -119,30 +160,45 @@ public class SuperAwesomeCardFragment extends Fragment {
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, null);
-            return new MyHolder(view);
+        public MyHolder getViewHolder(View view) {
+            return new MyHolder(view, false);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            MyHolder H = (MyHolder) holder;
+        public MyHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
+            View view = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+            return new MyHolder(view, true);
+        }
+
+        @Override
+        public void onBindViewHolder(MyHolder H, int position, boolean isItem) {
             H.tv.setGravity(Gravity.CENTER_VERTICAL);
             H.tv.setText(mLists.get(position));
         }
 
         @Override
-        public int getItemCount() {
+        public int getAdapterItemViewType(int position) {
+            return 0;
+        }
+
+        public void insert(String person, int position) {
+            insert(mLists, person, position);
+        }
+
+        @Override
+        public int getAdapterItemCount() {
             return mLists.size();
         }
+
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
         private TextView tv;
 
-        public MyHolder(View itemView) {
+        public MyHolder(View itemView, boolean isItem) {
             super(itemView);
-            tv = itemView.findViewById(android.R.id.text1);
+            if (isItem)
+                tv = itemView.findViewById(android.R.id.text1);
         }
     }
 
