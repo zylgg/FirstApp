@@ -84,7 +84,12 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int mPaddingLeft = 0;
     private int mPaddingRight = 0;
 
-    private boolean isExpandTabs = false;
+    private static final int NoExpand=-1;
+    private static final int WrapExpand=0;
+    private static final int Expand=1;
+
+    private int isExpandTabs = WrapExpand;
+
     private boolean isCustomTabs;
     private boolean isPaddingMiddle = false;
     private boolean isTabTextAllCaps = true;
@@ -158,7 +163,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         mDividerColor = a.getColor(R.styleable.PagerSlidingTabStrip_pstsDividerColor, mDividerColor);
         mDividerWidth = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsDividerWidth, mDividerWidth);
         mDividerPadding = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsDividerPadding, mDividerPadding);
-        isExpandTabs = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsShouldExpand, isExpandTabs);
+        isExpandTabs = a.getInt(R.styleable.PagerSlidingTabStrip_pstsShouldExpand, isExpandTabs);
         mScrollOffset = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsScrollOffset, mScrollOffset);
         isPaddingMiddle = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsPaddingMiddle, isPaddingMiddle);
         mTabPadding = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsTabPaddingLeftRight, mTabPadding);
@@ -190,7 +195,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         setTabsContainerParentViewPaddings();
 
         //配置选项卡的容器LayoutParams，可以用于相同的分隔空间，也可以仅用于包装选项卡。
-        mTabLayoutParams = isExpandTabs ?
+        mTabLayoutParams = isExpandTabs==Expand ?
                 new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f) :
                 new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
     }
@@ -231,10 +236,13 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         //测量宽度，
         mTabsContainer.measure(0,0);
         Log.i("mTabsContainer_width",""+mTabsContainer.getMeasuredWidth());
+        if (mTabsContainer.getMeasuredWidth()==0||isExpandTabs!=WrapExpand){
+            return;
+        }
         if (mTabsContainer.getMeasuredWidth()<=getContext().getResources().getDisplayMetrics().widthPixels){
-            setShouldExpand(true);
+            setShouldExpand(Expand);
         }else{
-            setShouldExpand(false);
+            setShouldExpand(NoExpand);
         }
     }
 
@@ -268,7 +276,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         for (int i = 0; i < mTabCount; i++) {
             View v = mTabsContainer.getChildAt(i);
             v.setBackgroundResource(mTabBackgroundResId);
-            if(!isExpandTabs)v.setPadding(mTabPadding, v.getPaddingTop(), mTabPadding, v.getPaddingBottom());
+            if(isExpandTabs==NoExpand)v.setPadding(mTabPadding, v.getPaddingTop(), mTabPadding, v.getPaddingBottom());
             TextView tab_title = (TextView) v.findViewById(R.id.psts_tab_title);
             if (tab_title != null) {
                 tab_title.setTextColor(mTabTextColor);
@@ -309,14 +317,14 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     public Pair<Float, Float> getIndicatorCoordinates() {
         //默认值:在当前标签下的行。
-        View currentTab = mTabsContainer.getChildAt(mCurrentPosition);
-        float lineLeft = currentTab.getLeft();
-        float lineRight = currentTab.getRight();
+        ViewGroup currentTab = (ViewGroup) mTabsContainer.getChildAt(mCurrentPosition);
+        float lineLeft = (currentTab.getLeft())+currentTab.getChildAt(0).getLeft();
+        float lineRight = (currentTab.getLeft())+currentTab.getChildAt(0).getRight();
         // 如果存在偏移，在当前和下一个选项卡之间开始插入左和右坐标。
         if (mCurrentPositionOffset > 0f && mCurrentPosition < mTabCount - 1) {
-            View nextTab = mTabsContainer.getChildAt(mCurrentPosition + 1);
-            final float nextTabLeft = nextTab.getLeft();
-            final float nextTabRight = nextTab.getRight();
+            ViewGroup nextTab = (ViewGroup) mTabsContainer.getChildAt(mCurrentPosition + 1);
+            final float nextTabLeft = (nextTab.getLeft())+nextTab.getChildAt(0).getLeft();
+            final float nextTabRight = (nextTab.getLeft())+nextTab.getChildAt(0).getRight();
 //            lineLeft = (mCurrentPositionOffset * nextTabLeft + (1f - mCurrentPositionOffset) * lineLeft);
             lineLeft = lineLeft + mCurrentPositionOffset * (nextTabLeft - lineLeft);//同上（left即为当前tab宽度变化）
 //            lineRight = (mCurrentPositionOffset * nextTabRight + (1f - mCurrentPositionOffset) * lineRight);
@@ -614,7 +622,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         return mScrollOffset;
     }
 
-    public boolean getShouldExpand() {
+    public int getShouldExpand() {
         return isExpandTabs;
     }
 
@@ -709,11 +717,11 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         invalidate();
     }
 
-    public void setShouldExpand(boolean shouldExpand) {
+    public void setShouldExpand(int shouldExpand) {
         if (this.isExpandTabs==shouldExpand)return;
         this.isExpandTabs = shouldExpand;
         //配置选项卡的容器LayoutParams，可以用于相同的分隔空间，也可以仅用于包装选项卡。
-        mTabLayoutParams = isExpandTabs ?
+        mTabLayoutParams = isExpandTabs==Expand ?
                 new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f) :
                 new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         if (mPager != null) {

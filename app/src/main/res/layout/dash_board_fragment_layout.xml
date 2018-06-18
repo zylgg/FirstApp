@@ -31,7 +31,8 @@
                     app:pstsDividerColor="@android:color/white"
                     app:pstsIndicatorColor="@android:color/white"
                     app:pstsTabTextColor="@drawable/tab_color_select"
-                    app:pstsTabPaddingLeftRight="15dp"/>
+                    app:pstsTabPaddingLeftRight="15dp"
+                    app:pstsShouldExpand="wrapexpand"/>
 
             </android.support.design.widget.AppBarLayout>
 

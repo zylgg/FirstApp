@@ -9,7 +9,11 @@
         <attr name="pstsDividerWidth" format="dimension" />
         <attr name="pstsDividerPadding" format="dimension" />
         <attr name="pstsScrollOffset" format="dimension" />
-        <attr name="pstsShouldExpand" format="boolean" />
+        <attr name="pstsShouldExpand">
+            <enum name="noexpand" value="-1"/>
+            <enum name="wrapexpand" value="0"/>
+            <enum name="expand" value="1"/>
+        </attr>
         <attr name="pstsPaddingMiddle" format="boolean" />
         <attr name="pstsTabPaddingLeftRight" format="dimension" />
         <attr name="pstsTabBackground" format="reference" />

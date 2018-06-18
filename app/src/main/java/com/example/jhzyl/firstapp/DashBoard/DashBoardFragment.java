@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,9 @@ public class DashBoardFragment extends Fragment {
         app_bar=view.findViewById(R.id.app_bar);
         iv_dash_board_title = view.findViewById(R.id.iv_dash_board_title);
         tabs = view.findViewById(R.id.tabs);
+        LinearLayout childAt = (LinearLayout) tabs.getChildAt(0);
+        childAt.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+
         pager = view.findViewById(R.id.pager);
         app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -107,8 +111,8 @@ public class DashBoardFragment extends Fragment {
 
         private final String[] TITLES = {
                 "A____A", "BB", "C____C"
-                , "本草纲目植物"
-                , "E____E", "F____F", "G____G", "H____H"
+//                , "本草纲目植物"
+//                , "E____E", "F____F", "G____G", "H____H"
         };
 
         MyPagerAdapter(FragmentManager fm) {
