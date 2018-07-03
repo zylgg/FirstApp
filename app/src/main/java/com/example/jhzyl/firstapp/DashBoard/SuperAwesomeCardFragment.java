@@ -19,8 +19,10 @@ package com.example.jhzyl.firstapp.DashBoard;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -35,6 +37,7 @@ import android.widget.TextView;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
+import com.example.jhzyl.firstapp.BaseFragment;
 import com.example.jhzyl.firstapp.CustomFooterView;
 import com.example.jhzyl.firstapp.R;
 
@@ -44,6 +47,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class SuperAwesomeCardFragment extends Fragment {
@@ -70,10 +74,6 @@ public class SuperAwesomeCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview_layout, container, false);
-        ViewGroup viewParent = (ViewGroup) view.getParent();
-        if (viewParent != null) {
-            viewParent.removeView(view);
-        }
         return view;
     }
 
@@ -89,74 +89,124 @@ public class SuperAwesomeCardFragment extends Fragment {
     }
 
     RecyclerView rv_my_listView;
+    List<String> mLists = new ArrayList<>();
+    MyAdapter mAdapter;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         rv_my_listView = view.findViewById(R.id.rv_my_listView);
-        rv_my_listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv_my_listView.setHasFixedSize(true);
-        xrv_my_refreshview = view.findViewById(R.id.xrv_my_refreshview);
-        if (mAdapter == null) {
-            mAdapter = new MyAdapter(mLists);
-            mAdapter.setCustomLoadMoreView(new XRefreshViewFooter(getContext()));
-            rv_my_listView.setAdapter(mAdapter);
-        }
 
+        rv_my_listView.setHasFixedSize(true);
+        rv_my_listView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        mAdapter = new MyAdapter(mLists);
+        rv_my_listView.setAdapter(mAdapter);
+
+        xrv_my_refreshview = view.findViewById(R.id.xrv_my_refreshview);
         xrv_my_refreshview.setPinnedTime(1000);
+        xrv_my_refreshview.setMoveForHorizontal(true);
         xrv_my_refreshview.setPullRefreshEnable(true);
-        xrv_my_refreshview.setPullLoadEnable(true);
-        xrv_my_refreshview.setAutoLoadMore(false);
-        xrv_my_refreshview.enableReleaseToLoadMore(true);
-        xrv_my_refreshview.enableRecyclerViewPullUp(true);
-        xrv_my_refreshview.enablePullUpWhenLoadCompleted(true);
+        xrv_my_refreshview.setAutoLoadMore(true);
+        mAdapter.setCustomLoadMoreView(new CustomFooterView(getContext()));
+        xrv_my_refreshview.setHideFooterWhenComplete(false);
+        xrv_my_refreshview.enableRecyclerViewPullUp(false);
 
         xrv_my_refreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             @Override
             public void onRefresh(boolean isPullDown) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshData();
-                    }
-                }, 1000);
+                refreshData();
+                if (xrv_my_refreshview.hasLoadCompleted()) {
+                    xrv_my_refreshview.setLoadComplete(false);
+                }
             }
 
             @Override
             public void onLoadMore(boolean isSilence) {
-                loadMore();
+//                if (xrv_my_refreshview.hasLoadCompleted()){
+//                    return;
+//                }
+//                loadMore();
             }
         });
-
         xrv_my_refreshview.startRefresh();
+
     }
 
-    List<String> mLists = new ArrayList<>();
-    MyAdapter mAdapter;
+    RecyclerView.OnScrollListener onScrollListener= new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (is_loading||xrv_my_refreshview.mPullRefreshing){
+                return;
+            }
+            LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            if (layoutManager.findLastVisibleItemPosition()>=(layoutManager.getItemCount()-3)){
+                if (xrv_my_refreshview.hasLoadCompleted()){
+                    return;
+                }
+                loadMore();
+            }
+        }
+    };
+//    @Override
+//    protected void onFragmentFirstVisible() {
+//
+//    }
 
     private void refreshData() {
         mLists.clear();
         mLists.add("CARD " + position);
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 25; i++) {
             mLists.add("pos：" + i + "\n");
         }
-        mAdapter.notifyDataSetChanged();
+
+        if (mLists.size()<25){
+            xrv_my_refreshview.setLoadComplete(true);
+        }
+
         xrv_my_refreshview.stopRefresh();
+        mAdapter.Refresh(mLists);
+        rv_my_listView.addOnScrollListener(onScrollListener);
     }
 
+    private boolean is_loading=false;
     private void loadMore() {
-        for (int i = 0; i < 20; i++) {
-            mAdapter.insert("pos_new：" + i + "\n",
-                    mAdapter.getAdapterItemCount());
-        }
-        xrv_my_refreshview.stopLoadMore(true);
+        is_loading=true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                is_loading=false;
+                int lastpos = mLists.size() - 1;
+                int new_size= (int) (Math.random()*25+1);
+                for (int i = lastpos; i < (lastpos + new_size); i++) {
+                    mLists.add("pos_new：" + i + "\n");
+                }
+                mAdapter.Refresh(mLists);
+                if (new_size<10) {
+                    xrv_my_refreshview.setLoadComplete(true);
+                } else {
+                    xrv_my_refreshview.stopLoadMore(true);
+                }
+            }
+        }, 500);
     }
 
 
     class MyAdapter extends BaseRecyclerAdapter<MyHolder> {
-        private List<String> mLists = new ArrayList<>();
+
+        private List<String> datas;
 
         public MyAdapter(List<String> mLists) {
-            this.mLists = mLists;
+            this.datas = mLists;
+        }
+
+        public void Refresh(List<String> mLists) {
+            this.datas = mLists;
+            this.notifyDataSetChanged();
         }
 
         @Override
@@ -166,38 +216,28 @@ public class SuperAwesomeCardFragment extends Fragment {
 
         @Override
         public MyHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
-            View view = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
-            return new MyHolder(view, true);
+            return new MyHolder(LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false), true);
         }
 
         @Override
-        public void onBindViewHolder(MyHolder H, int position, boolean isItem) {
-            H.tv.setGravity(Gravity.CENTER_VERTICAL);
-            H.tv.setText(mLists.get(position));
-        }
-
-        @Override
-        public int getAdapterItemViewType(int position) {
-            return 0;
-        }
-
-        public void insert(String person, int position) {
-            insert(mLists, person, position);
+        public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
+            holder.tv.setText(datas.get(position));
         }
 
         @Override
         public int getAdapterItemCount() {
-            return mLists.size();
+            return datas.size();
         }
 
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
         private TextView tv;
+        private boolean isitem;
 
-        public MyHolder(View itemView, boolean isItem) {
+        public MyHolder(View itemView, boolean isitem) {
             super(itemView);
-            if (isItem)
+            if (isitem)
                 tv = itemView.findViewById(android.R.id.text1);
         }
     }

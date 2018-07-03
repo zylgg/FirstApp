@@ -6,7 +6,7 @@
     <TextView
         android:id="@android:id/text1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:background="@drawable/rect_shape_bg"
         android:gravity="center"></TextView>

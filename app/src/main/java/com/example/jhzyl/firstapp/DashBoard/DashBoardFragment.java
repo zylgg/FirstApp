@@ -1,6 +1,7 @@
 package com.example.jhzyl.firstapp.DashBoard;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,8 +11,11 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +27,12 @@ import android.widget.Toast;
 
 import com.andview.refreshview.XRefreshView;
 import com.example.jhzyl.firstapp.DashBoard.PagerTab.PagerSlidingTabStrip;
+import com.example.jhzyl.firstapp.DensityUtil;
 import com.example.jhzyl.firstapp.Home.HomeFragment;
 import com.example.jhzyl.firstapp.MainActivity;
 import com.example.jhzyl.firstapp.OnChangeStatusTextColorListener;
 import com.example.jhzyl.firstapp.R;
+import com.example.jhzyl.firstapp.SystemAppUtils;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -83,12 +89,16 @@ public class DashBoardFragment extends Fragment {
         app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                Log.i(TAG, "verticalOffset: "+verticalOffset);
-                if (Math.abs(verticalOffset)==iv_dash_board_title.getHeight()){
-//                    Toast.makeText(getActivity(),"完全关闭",Toast.LENGTH_SHORT).show();
+                float verticalOffset_abs=Math.abs(verticalOffset);
+                float totalScrollRange = app_bar.getTotalScrollRange();
+
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+                    float expandedPercentage=verticalOffset_abs/totalScrollRange;
+                    getActivity().getWindow().setStatusBarColor(ColorUtils.blendARGB(Color.TRANSPARENT,getResources().getColor(R.color.colorAccent),expandedPercentage));
+                }
+                if (verticalOffset_abs==totalScrollRange){//完全关闭
                     EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.whileClose);
-                }else if (verticalOffset==0){
-//                    Toast.makeText(getActivity(),"完全打开",Toast.LENGTH_SHORT).show();
+                }else if (verticalOffset_abs==0){//完全打开
                     EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.whileOpen);
                 }else{
                     EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.other);
@@ -96,6 +106,7 @@ public class DashBoardFragment extends Fragment {
 
             }
         });
+
         Picasso.with(getContext()).load("http://inews.gtimg.com/newsapp_match/0/3348583155/0").into(iv_dash_board_title);
         pager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager()));
         tabs.setViewPager(pager);
@@ -107,7 +118,7 @@ public class DashBoardFragment extends Fragment {
         return (int) (dipValue * scale + 0.5f);
     }
 
-    public class MyPagerAdapter extends FragmentPagerAdapter {
+    public class MyPagerAdapter extends FragmentStatePagerAdapter {
 
         private final String[] TITLES = {
                 "A____A", "BB", "C____C"
@@ -132,6 +143,11 @@ public class DashBoardFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             return SuperAwesomeCardFragment.newInstance(position);
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            super.destroyItem(container, position, object);
         }
     }
 }

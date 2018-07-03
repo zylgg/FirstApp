@@ -274,9 +274,10 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
      */
     private void updateTabStyles() {
         for (int i = 0; i < mTabCount; i++) {
-            View v = mTabsContainer.getChildAt(i);
+            ViewGroup v = (ViewGroup) mTabsContainer.getChildAt(i);
             v.setBackgroundResource(mTabBackgroundResId);
-            if(isExpandTabs==NoExpand)v.setPadding(mTabPadding, v.getPaddingTop(), mTabPadding, v.getPaddingBottom());
+//            if(isExpandTabs==NoExpand)
+                v.getChildAt(0).setPadding(mTabPadding, v.getPaddingTop(), mTabPadding, v.getPaddingBottom());
             TextView tab_title = (TextView) v.findViewById(R.id.psts_tab_title);
             if (tab_title != null) {
                 tab_title.setTextColor(mTabTextColor);

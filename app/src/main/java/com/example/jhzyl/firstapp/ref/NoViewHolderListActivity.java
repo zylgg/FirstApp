@@ -81,6 +81,8 @@ public class NoViewHolderListActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+
                         personList.clear();
                         initData();
                         adapter.setData(personList);
@@ -89,6 +91,8 @@ public class NoViewHolderListActivity extends AppCompatActivity {
                             mLoadCount=0;
                             xRefreshView.setLoadComplete(false);
                         }
+
+
                     }
                 }, 500);
             }
@@ -120,7 +124,7 @@ public class NoViewHolderListActivity extends AppCompatActivity {
         });
     }
     private void initData() {
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < 3; i++) {
             Person person = new Person("name" + i, "" + i);
             personList.add(person);
         }

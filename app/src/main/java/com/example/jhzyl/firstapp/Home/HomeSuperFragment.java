@@ -65,6 +65,7 @@ public class HomeSuperFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         datas = SuperEntity.mDatas;
+
         TextView tv_home_theme_pos = view.findViewById(R.id.tv_super_theme_pos);
         tv_home_theme_pos.setText("pos:" + pos);
         xrv_super_theme = view.findViewById(R.id.xrv_super_theme);
@@ -72,8 +73,8 @@ public class HomeSuperFragment extends Fragment {
         rv_super_theme_lists = view.findViewById(R.id.rv_super_theme_lists);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6, GridLayoutManager.VERTICAL, false);
-        StaggeredGridLayoutManager manager2 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        rv_super_theme_lists.setLayoutManager(manager2);
+//        StaggeredGridLayoutManager manager2 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        rv_super_theme_lists.setLayoutManager(gridLayoutManager);
 
         rv_super_theme_lists.setAdapter(new HomeSuperFragment.MyRvAdapter());
         rv_super_theme_lists.addOnScrollListener(RvScrollListener.getInstance(onVisibilityTitleListener));
@@ -108,7 +109,7 @@ public class HomeSuperFragment extends Fragment {
         @Override
         public HomeSuperFragment.MyRvAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.home_super_fragment_gv_item, null);
-            view.setLayoutParams(new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.MATCH_PARENT));
+//            view.setLayoutParams(new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.MATCH_PARENT));
             return new HomeSuperFragment.MyRvAdapter.MyHolder(view);
         }
 
@@ -117,18 +118,18 @@ public class HomeSuperFragment extends Fragment {
         public void onBindViewHolder(HomeSuperFragment.MyRvAdapter.MyHolder holder, int position) {
             Log.i("move_count:", ""+(count++));
             SuperEntity entity = datas.get(position);
-            StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-            if (entity.getType() == SuperEntity.BigItemType) {
-                layoutParams.setFullSpan(true);
-                layoutParams.height = SystemAppUtils.dip2px(getContext(), 80);
-            }else{
-                layoutParams.setFullSpan(false);
-                int result = (int) (Math.random() * 2 + 1) + 3;//结果是1-10的随机数
-                layoutParams.height = (int) (result / 2.0f * SystemAppUtils.dip2px(getContext(), 80));
-            }
+//            StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+//            if (entity.getType() == SuperEntity.BigItemType) {
+//                layoutParams.setFullSpan(true);
+//                layoutParams.height = SystemAppUtils.dip2px(getContext(), 80);
+//            }else{
+//                layoutParams.setFullSpan(false);
+//                int result = (int) (Math.random() * 2 + 1) + 3;//结果是1-10的随机数
+//                layoutParams.height = (int) (result / 2.0f * SystemAppUtils.dip2px(getContext(), 80));
+//            }
 
             holder.text1.setText("item:" + position + "\n" + datas.get(position).getRefresh_count());
-            holder.itemView.setLayoutParams(layoutParams);
+//            holder.itemView.setLayoutParams(layoutParams);
         }
 
         @Override
@@ -137,29 +138,29 @@ public class HomeSuperFragment extends Fragment {
             return entity.getType();
         }
 
-//        @Override
-//        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-//
-//            RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-//            if (manager instanceof GridLayoutManager) {
-//                final GridLayoutManager gridManager = ((GridLayoutManager) manager);
-//                gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                    @Override
-//                    public int getSpanSize(int position) {
-//                        int type = getItemViewType(position);
-//                        switch (type) {
-//                            case SuperEntity.BigItemType:
-//                                return 6;
-//                            case SuperEntity.MiddleItemType:
-//                                return 3;
-//                            case SuperEntity.SmallItemType:
-//                                return 2;
-//                        }
-//                        return 2;
-//                    }
-//                });
-//            }
-//        }
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+
+            RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+            if (manager instanceof GridLayoutManager) {
+                final GridLayoutManager gridManager = ((GridLayoutManager) manager);
+                gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        int type = getItemViewType(position);
+                        switch (type) {
+                            case SuperEntity.BigItemType:
+                                return 6;
+                            case SuperEntity.MiddleItemType:
+                                return 3;
+                            case SuperEntity.SmallItemType:
+                                return 2;
+                        }
+                        return 2;
+                    }
+                });
+            }
+        }
 
         @Override
         public int getItemCount() {
