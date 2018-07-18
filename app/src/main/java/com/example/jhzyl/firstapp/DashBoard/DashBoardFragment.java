@@ -39,7 +39,7 @@ import org.greenrobot.eventbus.EventBus;
 
 public class DashBoardFragment extends Fragment {
 
-    private static final String TAG ="DashBoardFragment";
+    private static final String TAG = "DashBoardFragment";
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
     private ImageView iv_dash_board_title;
@@ -47,10 +47,12 @@ public class DashBoardFragment extends Fragment {
     private XRefreshView xrv_refresh_all;
     private AppBarLayout app_bar;
     private CoordinatorLayout cl;
+    private View v_board_fragment_status;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isCreated=true;
+        isCreated = true;
     }
 
     private static OnChangeStatusTextColorListener onChangeStatusTextColorListener;
@@ -59,17 +61,19 @@ public class DashBoardFragment extends Fragment {
         onChangeStatusTextColorListener = listener;
         return new DashBoardFragment();
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.dash_board_fragment_layout, null);
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser&&isCreated){
+        if (isVisibleToUser && isCreated) {
             Log.i(TAG, "setUserVisibleHint: ");
-            if (onChangeStatusTextColorListener!=null){
+            if (onChangeStatusTextColorListener != null) {
                 onChangeStatusTextColorListener.onChange(false);
             }
         }
@@ -77,9 +81,11 @@ public class DashBoardFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        cl=view.findViewById(R.id.cl);
+        cl = view.findViewById(R.id.cl);
 
-        app_bar=view.findViewById(R.id.app_bar);
+        v_board_fragment_status = view.findViewById(R.id.v_board_fragment_status);
+        v_board_fragment_status.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT ? View.GONE : View.VISIBLE);
+        app_bar = view.findViewById(R.id.app_bar);
         iv_dash_board_title = view.findViewById(R.id.iv_dash_board_title);
         tabs = view.findViewById(R.id.tabs);
         LinearLayout childAt = (LinearLayout) tabs.getChildAt(0);
@@ -89,18 +95,18 @@ public class DashBoardFragment extends Fragment {
         app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float verticalOffset_abs=Math.abs(verticalOffset);
+                float verticalOffset_abs = Math.abs(verticalOffset);
                 float totalScrollRange = app_bar.getTotalScrollRange();
 
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
-                    float expandedPercentage=verticalOffset_abs/totalScrollRange;
-                    getActivity().getWindow().setStatusBarColor(ColorUtils.blendARGB(Color.TRANSPARENT,getResources().getColor(R.color.colorAccent),expandedPercentage));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    float expandedPercentage = verticalOffset_abs / totalScrollRange;
+                    v_board_fragment_status.setBackgroundColor(ColorUtils.blendARGB(Color.TRANSPARENT, getResources().getColor(R.color.colorAccent), expandedPercentage));
                 }
-                if (verticalOffset_abs==totalScrollRange){//完全关闭
+                if (verticalOffset_abs == totalScrollRange) {//完全关闭
                     EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.whileClose);
-                }else if (verticalOffset_abs==0){//完全打开
+                } else if (verticalOffset_abs == 0) {//完全打开
                     EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.whileOpen);
-                }else{
+                } else {
                     EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.other);
                 }
 
