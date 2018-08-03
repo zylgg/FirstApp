@@ -84,6 +84,7 @@ public class DashBoardFragment extends Fragment {
         cl = view.findViewById(R.id.cl);
 
         v_board_fragment_status = view.findViewById(R.id.v_board_fragment_status);
+        v_board_fragment_status.getLayoutParams().height=SystemAppUtils.getStatusHeight(getContext());
         v_board_fragment_status.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT ? View.GONE : View.VISIBLE);
         app_bar = view.findViewById(R.id.app_bar);
         iv_dash_board_title = view.findViewById(R.id.iv_dash_board_title);

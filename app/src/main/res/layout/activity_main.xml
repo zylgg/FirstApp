@@ -33,19 +33,23 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_home_black_24dp"
-            android:gravity="center"
+            android:gravity="center_vertical|left"
             android:button="@null"
+            android:drawableLeft="@drawable/ic_home_black_24dp"
+            android:drawableRight="@android:drawable/btn_radio"
             android:text="@string/title_home"/>
+
         <RadioButton
             android:id="@+id/rb_dashboard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_dashboard_black_24dp"
-            android:gravity="center"
+            android:gravity="center_vertical|left"
             android:button="@null"
+            android:drawableLeft="@drawable/ic_dashboard_black_24dp"
+            android:drawableRight="@android:drawable/btn_radio"
             android:text="@string/title_dashboard"/>
+
     </RadioGroup>
 
 </LinearLayout>
