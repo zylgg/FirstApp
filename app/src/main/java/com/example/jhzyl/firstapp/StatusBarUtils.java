@@ -33,7 +33,6 @@ public class StatusBarUtils {
             return;
         }
         transparentStatusBar(activity);
-//        setRootView(activity);
     }
     /**
      * 使状态栏透明
@@ -50,6 +49,7 @@ public class StatusBarUtils {
             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
         } else {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
 }

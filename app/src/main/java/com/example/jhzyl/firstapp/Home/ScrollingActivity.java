@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.jhzyl.firstapp.R;
+import com.example.jhzyl.firstapp.StatusBarUtils;
 
 public class ScrollingActivity extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
+        StatusBarUtils.setTransparent(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

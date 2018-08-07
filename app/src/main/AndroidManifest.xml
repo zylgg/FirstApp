@@ -19,14 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ref.NoViewHolderListActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".LoopLayoutActivity"></activity>
-        <activity
-            android:name=".Home.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".ref.NoViewHolderListActivity" />
+        <activity android:name=".LoopLayoutActivity" />
+        <activity android:name=".Home.ScrollingActivity" />
     </application>
 
 </manifest>

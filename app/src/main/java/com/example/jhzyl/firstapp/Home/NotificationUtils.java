@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.os.Build;
@@ -25,9 +26,11 @@ public class NotificationUtils extends ContextWrapper {
     private NotificationManager manager;
     public static final String id = "channel_id1";
     public static final String name = "channel_name_1";
+    private Context context;
 
     public NotificationUtils(Context context) {
         super(context);
+        this.context = context;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -47,40 +50,6 @@ public class NotificationUtils extends ContextWrapper {
         return manager;
     }
 
-    @SuppressLint("WrongConstant")
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public Notification.Builder getChannelNotification(String title, String content, Intent intent) {
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        return new Notification.Builder(getApplicationContext(), id)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setWhen(System.currentTimeMillis())
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
-
-                .setFullScreenIntent(pendingIntent, false)
-
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setLargeIcon(Icon.createWithResource(getApplicationContext(), R.mipmap.ic_launcher))
-
-                .setAutoCancel(false);
-    }
-
-    public NotificationCompat.Builder getNotification_25(String title, String content, Intent intent) {
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-
-        return new NotificationCompat.Builder(getApplicationContext())
-                .setContentTitle(title)
-                .setContentText(content)
-                .setFullScreenIntent(pendingIntent, true)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH) // 设置该通知优先级
-                .setSmallIcon(android.R.drawable.stat_notify_more)
-                .setAutoCancel(true);
-    }
-
     public void sendNotification(String title, String content, Intent intent) {
         if (Build.VERSION.SDK_INT >= 26) {
             createNotificationChannel();
@@ -92,4 +61,48 @@ public class NotificationUtils extends ContextWrapper {
             getManager().notify(1, notification);
         }
     }
+
+    public NotificationCompat.Builder getChannelNotification(String title, String content, Intent intent) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        return new NotificationCompat.Builder(getApplicationContext(), id)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setWhen(System.currentTimeMillis())
+                .setTimeoutAfter(3000L)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .setContentIntent(pendingIntent)// 设置通知栏点击意图
+//                .setFullScreenIntent(pendingIntent, true)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // 设置该通知优先级
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))// 设置通知大ICON
+                .setOngoing(false)
+                .setAutoCancel(true);
+    }
+
+    public NotificationCompat.Builder getNotification_25(String title, String content, Intent intent) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        return new NotificationCompat.Builder(context, id)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setTicker(title + "有警报！") // 通知首次出现在通知栏，带上升动画效果的
+                .setWhen(System.currentTimeMillis())
+                .setVibrate(new long[]{0, 100, 500, 100})//振动效果需要振动权限
+//                .setTimeoutAfter(3000L)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .setContentIntent(pendingIntent)// 设置通知栏点击意图
+//                .setFullScreenIntent(pendingIntent, true)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // 设置该通知优先级
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))// 设置通知大ICON
+                .setAutoCancel(true)
+                .setOngoing(false);
+
+    }
+
 }

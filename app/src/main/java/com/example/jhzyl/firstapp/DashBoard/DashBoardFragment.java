@@ -82,24 +82,28 @@ public class DashBoardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         cl = view.findViewById(R.id.cl);
-
         v_board_fragment_status = view.findViewById(R.id.v_board_fragment_status);
-        v_board_fragment_status.getLayoutParams().height=SystemAppUtils.getStatusHeight(getContext());
-        v_board_fragment_status.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT ? View.GONE : View.VISIBLE);
         app_bar = view.findViewById(R.id.app_bar);
         iv_dash_board_title = view.findViewById(R.id.iv_dash_board_title);
         tabs = view.findViewById(R.id.tabs);
+        pager = view.findViewById(R.id.pager);
+
+        int statusH = SystemAppUtils.getStatusHeight(getContext());
+
+        v_board_fragment_status.getLayoutParams().height =statusH;
+        v_board_fragment_status.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT ? View.GONE : View.VISIBLE);
+        if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.KITKAT&&Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
+            app_bar.setPadding(0, statusH, 0, 0);
+        }
         LinearLayout childAt = (LinearLayout) tabs.getChildAt(0);
         childAt.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
-
-        pager = view.findViewById(R.id.pager);
         app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 float verticalOffset_abs = Math.abs(verticalOffset);
                 float totalScrollRange = app_bar.getTotalScrollRange();
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     float expandedPercentage = verticalOffset_abs / totalScrollRange;
                     v_board_fragment_status.setBackgroundColor(ColorUtils.blendARGB(Color.TRANSPARENT, getResources().getColor(R.color.colorAccent), expandedPercentage));
                 }
