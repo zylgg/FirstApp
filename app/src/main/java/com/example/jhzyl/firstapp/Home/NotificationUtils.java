@@ -69,6 +69,7 @@ public class NotificationUtils extends ContextWrapper {
                 .setContentTitle(title)
                 .setContentText(content)
                 .setWhen(System.currentTimeMillis())
+                .setUsesChronometer(true)
                 .setTimeoutAfter(3000L)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setContentIntent(pendingIntent)// 设置通知栏点击意图

@@ -54,12 +54,11 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
         }
     };
 
-    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        StatusBarUtils.setTransparent(this);
+//        StatusBarUtils.setTransparent(this);
 
         vp_content = findViewById(R.id.vp_content);
         rg_bottom_menu = findViewById(R.id.rg_bottom_menu);

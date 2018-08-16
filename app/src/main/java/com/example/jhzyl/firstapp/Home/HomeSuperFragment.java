@@ -155,6 +155,8 @@ public class HomeSuperFragment extends Fragment {
                                 return 3;
                             case SuperEntity.SmallItemType:
                                 return 2;
+                            case SuperEntity.MaxSmallItemType:
+                                return 1;
                         }
                         return 2;
                     }

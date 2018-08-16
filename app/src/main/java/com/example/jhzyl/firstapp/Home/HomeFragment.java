@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -37,7 +39,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 public class HomeFragment extends Fragment implements OnVisibilityTitleListener, View.OnClickListener {
 
     private static final String TAG = "HomeFragment";
-    LinearLayout ll_home_tab;
+    View ll_home_tab;
     TabLayout tl_home_tab;
     ViewPager vp_home_content;
     TextView tv_home_theme_title;
@@ -93,8 +95,18 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener,
         tl_home_tab = view.findViewById(R.id.tl_home_tab);
         vp_home_content = view.findViewById(R.id.vp_home_content);
 
-        MainActivity activity = (MainActivity) getActivity();
 
+        final TransitionDrawable drawable= (TransitionDrawable) ResourcesCompat.getDrawable(getResources(),R.drawable.transition1,null);
+        final TransitionDrawable drawable2= (TransitionDrawable) ResourcesCompat.getDrawable(getResources(),R.drawable.transition2,null);
+        ll_home_tab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll_home_tab.setBackgroundDrawable(drawable);
+                drawable.startTransition(2000);
+            }
+        });
+
+        MainActivity activity = (MainActivity) getActivity();
         vp_home_content.setAdapter(new HomeThemeAdapter(activity, this, activity.getSupportFragmentManager()));
         tl_home_tab.setupWithViewPager(vp_home_content);
     }
