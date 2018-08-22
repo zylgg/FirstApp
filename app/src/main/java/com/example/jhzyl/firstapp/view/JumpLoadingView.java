@@ -1,32 +1,21 @@
 package com.example.jhzyl.firstapp.view;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.PointF;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Scroller;
 
-import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.callback.IHeaderCallBack;
 import com.example.jhzyl.firstapp.R;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
     private ImageView people, shadow;
@@ -105,7 +94,8 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
         people.setTranslationY(people_top_y);
     }
 
-    private ValueAnimator people_animator;
+    private AnimatorSet people_animatorSet, shadow_animatorSet;
+
     /**
      * 刷新
      */
@@ -113,26 +103,44 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
     public void onStateRefreshing() {
         people.setVisibility(View.VISIBLE);
         //人物跳下-弹起-弹到顶部-顺时针旋转15°-落下-弹起-弹到顶部-逆时针旋转15°  （完成一个跳跃周期）
-        people_animator=ObjectAnimator.ofFloat(people,"translationY",people_top_y,people_bottom_y,people_top_y,people_bottom_y);
-        people_animator.setDuration(2400);
-        people_animator.setInterpolator(new LinearInterpolator());
-        people_animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        ValueAnimator people_animator_a = ObjectAnimator.ofFloat(people, "translationY", people_top_y, people_bottom_y, people_top_y).setDuration(800);
+
+        ValueAnimator rotation_15A = ObjectAnimator.ofFloat(people, "rotation", 0f, 15f).setDuration(150);
+
+        ValueAnimator people_animator_b = ObjectAnimator.ofFloat(people, "translationY", people_top_y, people_bottom_y, people_top_y).setDuration(800);
+
+        ValueAnimator rotation_15B = ObjectAnimator.ofFloat(people, "rotation", 0f, -15f).setDuration(150);
+        people_animatorSet = new AnimatorSet();
+        people_animatorSet.playSequentially(people_animator_a, rotation_15A, people_animator_b, rotation_15B);
+
+        //-----------影子先变大-在变小
+        ObjectAnimator scaleX1 = ObjectAnimator.ofFloat(shadow, "scaleX", 1, 1.5f, 1).setDuration(800);
+        ObjectAnimator scaleY1 = ObjectAnimator.ofFloat(shadow, "scaleY", 1, 1.5f, 1).setDuration(800);
+        AnimatorSet shadow_animationSet1 = new AnimatorSet();
+        shadow_animationSet1.play(scaleX1).with(scaleY1);
+
+        ObjectAnimator scaleY0 = ObjectAnimator.ofFloat(shadow, "scaleY", 1, 1).setDuration(150);
+
+        ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(shadow, "scaleX", 1f, 1.5f, 1f).setDuration(800);
+        ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(shadow, "scaleY", 1f, 1.5f, 1f).setDuration(800);
+        AnimatorSet shadow_animationSet2 = new AnimatorSet();
+        shadow_animationSet2.play(scaleX2).with(scaleY2);
+
+        ObjectAnimator scaleY00 = ObjectAnimator.ofFloat(shadow, "scaleY", 1f, 1f).setDuration(150);
+
+        shadow_animatorSet = new AnimatorSet();
+        shadow_animatorSet.playSequentially(shadow_animationSet1, scaleY0, shadow_animationSet2, scaleY00);
+        //-----------
+
+        people_animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float animatedFraction = animation.getAnimatedFraction();
-                float values = (float) animation.getAnimatedValue();
-                if (animatedFraction>0.1&&values==people_top_y){
-                    ValueAnimator rotationA= ObjectAnimator.ofFloat(people,"rotation",0f,15f);
-                    rotationA.start();
-                }else if (animatedFraction>0.5&&values==people_top_y){
-                    ValueAnimator rotationA= ObjectAnimator.ofFloat(people,"rotation",0f,-15f);
-                    rotationA.start();
-                }
+            public void onAnimationEnd(Animator animation) {
+                people_animatorSet.start();
+                shadow_animatorSet.start();
             }
         });
-        people_animator.setRepeatCount(-1);
-        people_animator.setRepeatMode(ValueAnimator.REVERSE);
-        people_animator.start();
+        people_animatorSet.start();
+        shadow_animatorSet.start();
     }
 
     /**
@@ -143,8 +151,10 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
     @Override
     public void onStateFinish(boolean success) {
         //从当前位置落入水中（view底部），然后加载烟花gif动画
-        people_animator.end();
-
+        if (people_animatorSet != null && people_animatorSet.isRunning()) {
+            people_animatorSet.cancel();
+            shadow_animatorSet.cancel();
+        }
     }
 
     @Override

@@ -37,7 +37,7 @@ public class LoadingActivity extends AppCompatActivity {
                     public void run() {
                         xrv_loading.stopRefresh();
                     }
-                },10000);
+                },6000);
             }
         });
 
