@@ -1,4 +1,4 @@
-package com.example.jhzyl.firstapp;
+package com.example.jhzyl.firstapp.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
+import com.example.jhzyl.firstapp.R;
 
 public class MyLinearLayout extends LinearLayout {
     private ViewDragHelper mViewDragHelper;

@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.jhzyl.firstapp.R;
-import com.example.jhzyl.firstapp.StatusBarUtils;
+import com.example.jhzyl.firstapp.utils.StatusBarUtils;
 
 public class ScrollingActivity extends AppCompatActivity {
 

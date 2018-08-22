@@ -1,7 +1,5 @@
 package com.example.jhzyl.firstapp;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.view.Gravity;
@@ -10,6 +8,8 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.jhzyl.firstapp.utils.SystemAppUtils;
 
 import java.lang.reflect.Field;
 

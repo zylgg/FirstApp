@@ -1,21 +1,14 @@
 package com.example.jhzyl.firstapp.Home;
 
 import android.animation.ValueAnimator;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.TransitionDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
@@ -24,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,9 +24,7 @@ import com.example.jhzyl.firstapp.Home.adapter.HomeThemeAdapter;
 import com.example.jhzyl.firstapp.MainActivity;
 import com.example.jhzyl.firstapp.OnChangeStatusTextColorListener;
 import com.example.jhzyl.firstapp.R;
-import com.example.jhzyl.firstapp.SystemAppUtils;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
+import com.example.jhzyl.firstapp.utils.SystemAppUtils;
 
 public class HomeFragment extends Fragment implements OnVisibilityTitleListener, View.OnClickListener {
 

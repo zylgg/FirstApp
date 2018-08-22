@@ -1,7 +1,10 @@
-package com.example.jhzyl.firstapp;
+package com.example.jhzyl.firstapp.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.jhzyl.firstapp.R;
+import com.example.jhzyl.firstapp.view.LooperLayout;
 
 import java.util.ArrayList;
 import java.util.List;

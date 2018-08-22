@@ -1,20 +1,11 @@
-package com.example.jhzyl.firstapp;
+package com.example.jhzyl.firstapp.utils;
 
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntRange;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 /**
  * Created by Jaeger on 16/2/14.

@@ -7,8 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.andview.refreshview.XRefreshView;
-import com.andview.refreshview.XRefreshViewFooter;
-import com.example.jhzyl.firstapp.CustomFooterView;
+import com.example.jhzyl.firstapp.view.CustomFooterView;
 import com.example.jhzyl.firstapp.Person;
 import com.example.jhzyl.firstapp.R;
 import com.example.jhzyl.firstapp.SimpleAdapter;

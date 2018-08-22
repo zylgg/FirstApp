@@ -1,7 +1,5 @@
 package com.example.jhzyl.firstapp.Home;
 
-import android.animation.ValueAnimator;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,13 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
-import com.example.jhzyl.firstapp.CustomFooterView;
+import com.example.jhzyl.firstapp.view.CustomFooterView;
 import com.example.jhzyl.firstapp.R;
 
 import java.util.ArrayList;

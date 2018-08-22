@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoopLayoutActivity">
-    <com.example.jhzyl.firstapp.LooperLayout
+    tools:context=".activity.LoopLayoutActivity">
+    <com.example.jhzyl.firstapp.view.LooperLayout
         android:id="@+id/looperview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.example.jhzyl.firstapp.LooperLayout>
+    </com.example.jhzyl.firstapp.view.LooperLayout>
 
 </LinearLayout>

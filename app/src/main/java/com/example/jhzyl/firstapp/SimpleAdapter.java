@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
+import com.example.jhzyl.firstapp.utils.DensityUtil;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.jhzyl.firstapp;
+package com.example.jhzyl.firstapp.view;
 
 
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.callback.IFooterCallBack;
 import com.andview.refreshview.utils.Utils;
+import com.example.jhzyl.firstapp.R;
 
 
 public class CustomFooterView extends LinearLayout implements IFooterCallBack {

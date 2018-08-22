@@ -1,4 +1,4 @@
-package com.example.jhzyl.firstapp;
+package com.example.jhzyl.firstapp.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,6 +13,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.example.jhzyl.firstapp.R;
 
 import java.util.List;
 import java.util.Random;

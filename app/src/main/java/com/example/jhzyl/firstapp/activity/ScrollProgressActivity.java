@@ -1,4 +1,4 @@
-package com.example.jhzyl.firstapp;
+package com.example.jhzyl.firstapp.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -16,10 +16,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.jhzyl.firstapp.utils.DensityUtil;
+import com.example.jhzyl.firstapp.R;
 
 public class ScrollProgressActivity extends AppCompatActivity {
 
@@ -69,7 +69,7 @@ public class ScrollProgressActivity extends AppCompatActivity {
         Window window = dialog.getWindow();
         WindowManager.LayoutParams attributes  = window.getAttributes();
         attributes.width=LayoutParams.MATCH_PARENT;
-        attributes.height=DensityUtil.dip2px(this,100);
+        attributes.height= DensityUtil.dip2px(this,100);
         attributes.gravity=Gravity.BOTTOM;
         dialog.show();
     }
