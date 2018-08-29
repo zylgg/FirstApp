@@ -15,18 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme">
         <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".ref.NoViewHolderListActivity" />
-        <activity android:name=".activity.LoopLayoutActivity" />
-        <activity android:name=".Home.ScrollingActivity" />
-        <activity android:name=".activity.ScrollProgressActivity"></activity>
-        <activity android:name=".activity.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ref.NoViewHolderListActivity" />
+        <activity android:name=".activity.LoopLayoutActivity" />
+        <activity android:name=".Home.ScrollingActivity" />
+        <activity android:name=".activity.ScrollProgressActivity"/>
+        <activity android:name=".activity.LoadingActivity">
+
         </activity>
     </application>
 

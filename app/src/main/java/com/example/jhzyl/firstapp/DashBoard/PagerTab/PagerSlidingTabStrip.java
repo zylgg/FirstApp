@@ -197,7 +197,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         //配置选项卡的容器LayoutParams，可以用于相同的分隔空间，也可以仅用于包装选项卡。
         mTabLayoutParams = isExpandTabs==Expand ?
                 new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f) :
-                new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+                new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);//宽度由内部（padding+文字宽度决定）
     }
 
     private void setTabsContainerParentViewPaddings() {
@@ -235,7 +235,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         updateTabStyles();
         //测量宽度，
         mTabsContainer.measure(0,0);
-        Log.i("mTabsContainer_width",""+mTabsContainer.getMeasuredWidth());
+//        Log.i("mTabsContainer_width",""+mTabsContainer.getMeasuredWidth());
         if (mTabsContainer.getMeasuredWidth()==0||isExpandTabs!=WrapExpand){
             return;
         }
@@ -319,19 +319,19 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     public Pair<Float, Float> getIndicatorCoordinates() {
         //默认值:在当前标签下的行。
         ViewGroup currentTab = (ViewGroup) mTabsContainer.getChildAt(mCurrentPosition);
-        float lineLeft = (currentTab.getLeft())+currentTab.getChildAt(0).getLeft();
-        float lineRight = (currentTab.getLeft())+currentTab.getChildAt(0).getRight();
+        View childAt = currentTab.getChildAt(0);
+        float lineLeft = (currentTab.getLeft())+childAt.getLeft()+childAt.getPaddingLeft();
+        float lineRight = (currentTab.getLeft())+childAt.getRight()-childAt.getPaddingRight();
+
         // 如果存在偏移，在当前和下一个选项卡之间开始插入左和右坐标。
         if (mCurrentPositionOffset > 0f && mCurrentPosition < mTabCount - 1) {
-
             ViewGroup nextTab = (ViewGroup) mTabsContainer.getChildAt(mCurrentPosition + 1);
-            final float nextTabLeft = (nextTab.getLeft())+nextTab.getChildAt(0).getLeft();
-            final float nextTabRight = (nextTab.getLeft())+nextTab.getChildAt(0).getRight();
+            View nextChildAt=nextTab.getChildAt(0);
+            final float nextTabLeft = (nextTab.getLeft())+nextChildAt.getLeft()+nextChildAt.getPaddingLeft();
+            final float nextTabRight = (nextTab.getLeft())+nextChildAt.getRight()-nextChildAt.getPaddingRight();
 
-
-//            lineLeft = (mCurrentPositionOffset * nextTabLeft + (1f - mCurrentPositionOffset) * lineLeft);
             lineLeft = lineLeft + mCurrentPositionOffset * (nextTabLeft - lineLeft);//同上（left即为当前tab宽度变化）
-//            lineRight = (mCurrentPositionOffset * nextTabRight + (1f - mCurrentPositionOffset) * lineRight);
+
             lineRight = lineRight + mCurrentPositionOffset * (nextTabRight - lineRight);//同上（right即为下一个tab宽度变化）
         }
 
@@ -412,9 +412,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            Log.i(TAG, "position: " + position);
-            Log.i(TAG, "positionOffset: " + positionOffset);
-            Log.i(TAG, "positionOffsetPixels: " + positionOffsetPixels);
+//            Log.i(TAG, "position: " + position);
+//            Log.i(TAG, "positionOffset: " + positionOffset);
+//            Log.i(TAG, "positionOffsetPixels: " + positionOffsetPixels);
 
             mCurrentPosition = position;
             mCurrentPositionOffset = positionOffset;
