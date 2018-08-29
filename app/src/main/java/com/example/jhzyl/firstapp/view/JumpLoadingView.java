@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import com.example.jhzyl.firstapp.R;
 public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
     private ImageView people, shadow;
     private ImageView iv_fireworks_anim;
+    private RelativeLayout contentView;
 
     public JumpLoadingView(Context context) {
         super(context);
@@ -44,16 +46,18 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
 
 
     private void initView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.jump_loading_view, this);
+        ViewGroup view = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.jump_loading_view, this);
         iv_fireworks_anim = view.findViewById(R.id.iv_fireworks_anim);
         people = view.findViewById(R.id.iv_people_jump);
         shadow = view.findViewById(R.id.iv_people_shadow);
+        contentView=view.findViewById(R.id.rl_jumpLoading);
     }
 
     //---------------------------下拉回调方法----------------------------
     private boolean finished = false;
     private boolean refreshing = false;
     private float shadow_h, people_h;
+    private float mContentHeight;
 
     /**
      * 默认
@@ -67,6 +71,8 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
         shadow.setScaleY(1);
         shadow_h = shadow.getMeasuredHeight();
         people_h = people.getMeasuredHeight();
+        mContentHeight=contentView.getMeasuredHeight();
+        people_animatorSet=null;
     }
 
     /**
@@ -80,9 +86,8 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
     public void onHeaderMove(double headerMovePercent, int offsetY, int deltaY) {
         if (finished || refreshing) return;
         if (headerMovePercent <= 1) {
-            Log.i("headerMovePercent",""+headerMovePercent);
-            int measuredHeight = getMeasuredHeight();
-            shadow.setTranslationY((float) ((measuredHeight - shadow_h)*headerMovePercent));//减去shadowH,避免脚步shadow移动到外部
+//            Log.i("headerMovePercent",""+headerMovePercent);
+            shadow.setTranslationY((float) ((mContentHeight - shadow_h)*headerMovePercent));//减去shadowH,避免脚步shadow移动到外部
         }
     }
 
@@ -100,10 +105,10 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
      */
     @Override
     public void onStateReady() {
-        shadow.setTranslationY(getMeasuredHeight()-shadow_h);//下滑存在惯性滑动误差，so直接设置shadow在底部
+        shadow.setTranslationY(mContentHeight-shadow_h);//下滑存在惯性滑动误差，so直接设置shadow在底部
 
-        people_top_y = (getMeasuredHeight() - people_h) / 2.0f;
-        people_bottom_y = getMeasuredHeight() - shadow_h / 2.0f - people_h;
+        people_top_y = (mContentHeight - people_h) / 2.0f;
+        people_bottom_y = mContentHeight - shadow_h / 2.0f - people_h;
 
         iv_fireworks_anim.setImageDrawable(null);
         iv_fireworks_anim.setVisibility(View.GONE);
@@ -122,10 +127,10 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
         people.setVisibility(View.VISIBLE);
         //人物跳下-弹起-弹到顶部-顺时针旋转15°-落下-弹起-弹到顶部-逆时针旋转15°  （完成一个跳跃周期）
         ValueAnimator people_animator_a = ObjectAnimator.ofFloat(people, "translationY", people_top_y, people_bottom_y, people_top_y).setDuration(500);
-        ValueAnimator rotation_15A = ObjectAnimator.ofFloat(people, "rotation", 0f, 15f).setDuration(120);
+        ValueAnimator rotation_15A = ObjectAnimator.ofFloat(people, "rotation", 0f, 15f).setDuration(150);
 
         ValueAnimator people_animator_b = ObjectAnimator.ofFloat(people, "translationY", people_top_y, people_bottom_y, people_top_y).setDuration(500);
-        ValueAnimator rotation_15B = ObjectAnimator.ofFloat(people, "rotation", 0f, -15f).setDuration(120);
+        ValueAnimator rotation_15B = ObjectAnimator.ofFloat(people, "rotation", 0f, -15f).setDuration(150);
         //加入小人跳跃是的进度监听
         people_animator_a.addUpdateListener(getPeopleJumpUpListener());
         rotation_15A.addUpdateListener(getPeopleJumpUpListener());
@@ -141,14 +146,14 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
         AnimatorSet shadow_animationSet1 = new AnimatorSet();
         shadow_animationSet1.play(scaleX1).with(scaleY1);
 
-        ObjectAnimator scaleY0 = ObjectAnimator.ofFloat(shadow, "scaleY", 1, 1).setDuration(120);
+        ObjectAnimator scaleY0 = ObjectAnimator.ofFloat(shadow, "scaleY", 1, 1).setDuration(150);
 
         ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(shadow, "scaleX", 1f, 1.5f, 1f).setDuration(500);
         ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(shadow, "scaleY", 1f, 1.5f, 1f).setDuration(500);
         AnimatorSet shadow_animationSet2 = new AnimatorSet();
         shadow_animationSet2.play(scaleX2).with(scaleY2);
 
-        ObjectAnimator scaleY00 = ObjectAnimator.ofFloat(shadow, "scaleY", 1f, 1f).setDuration(120);
+        ObjectAnimator scaleY00 = ObjectAnimator.ofFloat(shadow, "scaleY", 1f, 1f).setDuration(150);
 
         shadow_animatorSet = new AnimatorSet();
         shadow_animatorSet.playSequentially(shadow_animationSet1, scaleY0, shadow_animationSet2, scaleY00);
@@ -157,8 +162,10 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
         people_animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                people_animatorSet.start();
-                shadow_animatorSet.start();
+                if (!finished){
+                    people_animatorSet.start();
+                    shadow_animatorSet.start();
+                }
             }
         });
         people_animatorSet.start();
@@ -191,8 +198,10 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
                 }
                 if (finished) {//记录已完成时 到达顶部或者底部 才cancel 全部动画
                     if (peopleUpdatedY == people_top_y) {
+                        Log.i("finished","people_top_y");
                         FinishAnimation(true);
                     } else if (peopleUpdatedY == people_bottom_y) {
+                        Log.i("finished","people_bottom_y");
                         FinishAnimation(false);
                     }
                 }
@@ -222,9 +231,11 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
         if (people_animatorSet != null && people_animatorSet.isRunning()) {
             people_animatorSet.cancel();
             shadow_animatorSet.cancel();
+//            people_animatorSet.end();
+//            shadow_animatorSet.end();
 
             //加载完 开始小人最后的延续动画
-            ValueAnimator peopleEndAnimator = ObjectAnimator.ofFloat(people, "translationY", peopleUpdatedY, getMeasuredHeight() + people_h).setDuration(500);
+            ValueAnimator peopleEndAnimator = ObjectAnimator.ofFloat(people, "translationY", peopleUpdatedY, mContentHeight + people_h).setDuration(500);
             ObjectAnimator scaleX2, scaleY2;
             if (isStartTop) {
                 scaleX2 = ObjectAnimator.ofFloat(shadow, "scaleX", 1, 1.5f).setDuration(500);

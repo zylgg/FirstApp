@@ -323,9 +323,12 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         float lineRight = (currentTab.getLeft())+currentTab.getChildAt(0).getRight();
         // 如果存在偏移，在当前和下一个选项卡之间开始插入左和右坐标。
         if (mCurrentPositionOffset > 0f && mCurrentPosition < mTabCount - 1) {
+
             ViewGroup nextTab = (ViewGroup) mTabsContainer.getChildAt(mCurrentPosition + 1);
             final float nextTabLeft = (nextTab.getLeft())+nextTab.getChildAt(0).getLeft();
             final float nextTabRight = (nextTab.getLeft())+nextTab.getChildAt(0).getRight();
+
+
 //            lineLeft = (mCurrentPositionOffset * nextTabLeft + (1f - mCurrentPositionOffset) * lineLeft);
             lineLeft = lineLeft + mCurrentPositionOffset * (nextTabLeft - lineLeft);//同上（left即为当前tab宽度变化）
 //            lineRight = (mCurrentPositionOffset * nextTabRight + (1f - mCurrentPositionOffset) * lineRight);

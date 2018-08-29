@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import com.example.jhzyl.firstapp.DashBoard.DashBoardFragment;
 import com.example.jhzyl.firstapp.Home.HomeFragment;
 import com.example.jhzyl.firstapp.adapter.MyVpAdapter;
+import com.example.jhzyl.firstapp.utils.StatusBarUtils;
 
 public class MainActivity extends AppCompatActivity implements OnChangeStatusTextColorListener {
 
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        StatusBarUtils.setTransparent(this);
+        StatusBarUtils.setTransparent(this);
 
         vp_content = findViewById(R.id.vp_content);
         rg_bottom_menu = findViewById(R.id.rg_bottom_menu);

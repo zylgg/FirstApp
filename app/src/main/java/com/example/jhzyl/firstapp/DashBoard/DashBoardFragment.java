@@ -125,8 +125,8 @@ public class DashBoardFragment extends Fragment {
 
         private final String[] TITLES = {
                 "A____A", "BB", "C____C"
-//                , "本草纲目植物"
-//                , "E____E", "F____F", "G____G", "H____H"
+                , "本草纲目植物"
+                , "E____E", "F____F", "G____G", "H____H"
         };
 
         MyPagerAdapter(FragmentManager fm) {
