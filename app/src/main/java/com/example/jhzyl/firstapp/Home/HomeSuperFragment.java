@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andview.refreshview.XRefreshView;
 import com.example.jhzyl.firstapp.Home.bean.SuperEntity;
+import com.example.jhzyl.firstapp.MyDecoration;
 import com.example.jhzyl.firstapp.R;
 
 import java.util.ArrayList;
@@ -65,6 +68,7 @@ public class HomeSuperFragment extends Fragment {
         xrv_super_theme = view.findViewById(R.id.xrv_super_theme);
         xrv_super_theme.setXRefreshViewListener(xRefreshViewListener);
         rv_super_theme_lists = view.findViewById(R.id.rv_super_theme_lists);
+        rv_super_theme_lists.addItemDecoration(new MyDecoration(getContext()));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6, GridLayoutManager.VERTICAL, false);
 //        StaggeredGridLayoutManager manager2 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -123,6 +127,14 @@ public class HomeSuperFragment extends Fragment {
 //            }
 
             holder.text1.setText("item:" + position + "\n" + datas.get(position).getRefresh_count());
+            holder.text1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView textView= (TextView) v;
+                    Toast.makeText(getContext(),textView.getText().toString(),Toast.LENGTH_SHORT).show();
+
+                }
+            });
 //            holder.itemView.setLayoutParams(layoutParams);
         }
 

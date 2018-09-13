@@ -140,6 +140,7 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener,
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) vp_home_content.getLayoutParams();
                     layoutParams.topMargin = (int) (-scroll_max_height * animatedValue);
                     vp_home_content.setLayoutParams(layoutParams);
+                    int id=android.R.layout.simple_list_item_1;
 //                    vp_home_content.setPadding(0, (int) (-scroll_max_height * animatedValue),0,0);
 //                    vp_home_content.setY(-scroll_max_height * animatedValue);
                 }
