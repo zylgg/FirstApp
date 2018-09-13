@@ -28,6 +28,7 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
     private ImageView people, shadow;
     private ImageView iv_fireworks_anim;
     private RelativeLayout contentView;
+    private long singleTime=400;
 
     public JumpLoadingView(Context context) {
         super(context);
@@ -126,10 +127,10 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
         refreshing = true;
         people.setVisibility(View.VISIBLE);
         //人物跳下-弹起-弹到顶部-顺时针旋转15°-落下-弹起-弹到顶部-逆时针旋转15°  （完成一个跳跃周期）
-        ValueAnimator people_animator_a = ObjectAnimator.ofFloat(people, "translationY", people_top_y, people_bottom_y, people_top_y).setDuration(500);
+        ValueAnimator people_animator_a = ObjectAnimator.ofFloat(people, "translationY", people_top_y, people_bottom_y, people_top_y).setDuration(singleTime);
         ValueAnimator rotation_15A = ObjectAnimator.ofFloat(people, "rotation", 0f, 15f).setDuration(150);
 
-        ValueAnimator people_animator_b = ObjectAnimator.ofFloat(people, "translationY", people_top_y, people_bottom_y, people_top_y).setDuration(500);
+        ValueAnimator people_animator_b = ObjectAnimator.ofFloat(people, "translationY", people_top_y, people_bottom_y, people_top_y).setDuration(singleTime);
         ValueAnimator rotation_15B = ObjectAnimator.ofFloat(people, "rotation", 0f, -15f).setDuration(150);
         //加入小人跳跃是的进度监听
         people_animator_a.addUpdateListener(getPeopleJumpUpListener());
@@ -141,29 +142,35 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
         people_animatorSet.playSequentially(people_animator_a, rotation_15A, people_animator_b, rotation_15B);
 
         //-----------影子先变大-在变小
-        ObjectAnimator scaleX1 = ObjectAnimator.ofFloat(shadow, "scaleX", 1, 1.5f, 1).setDuration(500);
-        ObjectAnimator scaleY1 = ObjectAnimator.ofFloat(shadow, "scaleY", 1, 1.5f, 1).setDuration(500);
+        ObjectAnimator scaleX1 = ObjectAnimator.ofFloat(shadow, "scaleX", 1, 1.5f, 1).setDuration(singleTime);
+        ObjectAnimator scaleY1 = ObjectAnimator.ofFloat(shadow, "scaleY", 1, 1.5f, 1).setDuration(singleTime);
         AnimatorSet shadow_animationSet1 = new AnimatorSet();
         shadow_animationSet1.play(scaleX1).with(scaleY1);
 
         ObjectAnimator scaleY0 = ObjectAnimator.ofFloat(shadow, "scaleY", 1, 1).setDuration(150);
 
-        ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(shadow, "scaleX", 1f, 1.5f, 1f).setDuration(500);
-        ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(shadow, "scaleY", 1f, 1.5f, 1f).setDuration(500);
-        AnimatorSet shadow_animationSet2 = new AnimatorSet();
-        shadow_animationSet2.play(scaleX2).with(scaleY2);
+        ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(shadow, "scaleX", 1f, 1.5f, 1f).setDuration(singleTime);
+        ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(shadow, "scaleY", 1f, 1.5f, 1f).setDuration(singleTime);
+        AnimatorSet shadow_animationSet3 = new AnimatorSet();
+        shadow_animationSet3.play(scaleX2).with(scaleY2);
 
         ObjectAnimator scaleY00 = ObjectAnimator.ofFloat(shadow, "scaleY", 1f, 1f).setDuration(150);
 
         shadow_animatorSet = new AnimatorSet();
-        shadow_animatorSet.playSequentially(shadow_animationSet1, scaleY0, shadow_animationSet2, scaleY00);
+        shadow_animatorSet.playSequentially(shadow_animationSet1, scaleY0, shadow_animationSet3, scaleY00);
         //-----------
-
         people_animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (!finished){
                     people_animatorSet.start();
+                }
+            }
+        });
+        shadow_animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (!finished){
                     shadow_animatorSet.start();
                 }
             }
@@ -175,38 +182,20 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
     /**
      * 记录小人跳跃时更新的y位置   及  上一个位置
      */
-    private float peopleUpdatedY = 0f, last_peopleUpdatedY;
-    /**
-     * [1]:等于1，向上   等于0，水平   等于-1，向下
-     */
-    private float peopleCurDirection[] = new float[2];
+    private float peopleUpdatedY = 0f;
 
     private ValueAnimator.AnimatorUpdateListener getPeopleJumpUpListener() {
         return new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 peopleUpdatedY = people.getTranslationY();
-                if (last_peopleUpdatedY != 0) {
-                    peopleCurDirection[0] = peopleUpdatedY;
-                    if (peopleUpdatedY > last_peopleUpdatedY) {
-                        peopleCurDirection[1] = (-1);
-                    } else if (peopleUpdatedY == last_peopleUpdatedY) {
-                        peopleCurDirection[1] = 0;
-                    } else {
-                        peopleCurDirection[1] = 1;
-                    }
-                }
                 if (finished) {//记录已完成时 到达顶部或者底部 才cancel 全部动画
                     if (peopleUpdatedY == people_top_y) {
-                        Log.i("finished","people_top_y");
                         FinishAnimation(true);
                     } else if (peopleUpdatedY == people_bottom_y) {
-                        Log.i("finished","people_bottom_y");
                         FinishAnimation(false);
                     }
                 }
-//                Log.i("update", "peopleUpdatedY: "+peopleUpdatedY);
-                last_peopleUpdatedY = peopleUpdatedY;
             }
         };
     }
@@ -231,28 +220,26 @@ public class JumpLoadingView extends RelativeLayout implements IHeaderCallBack {
         if (people_animatorSet != null && people_animatorSet.isRunning()) {
             people_animatorSet.cancel();
             shadow_animatorSet.cancel();
-//            people_animatorSet.end();
-//            shadow_animatorSet.end();
 
             //加载完 开始小人最后的延续动画
-            ValueAnimator peopleEndAnimator = ObjectAnimator.ofFloat(people, "translationY", peopleUpdatedY, mContentHeight + people_h).setDuration(500);
+            ValueAnimator peopleEndAnimator = ObjectAnimator.ofFloat(people, "translationY", peopleUpdatedY, mContentHeight + people_h).setDuration(singleTime);
             ObjectAnimator scaleX2, scaleY2;
             if (isStartTop) {
-                scaleX2 = ObjectAnimator.ofFloat(shadow, "scaleX", 1, 1.5f).setDuration(500);
-                scaleY2 = ObjectAnimator.ofFloat(shadow, "scaleY", 1, 1.5f).setDuration(500);
+                scaleX2 = ObjectAnimator.ofFloat(shadow, "scaleX", 1, 1.5f).setDuration(singleTime);
+                scaleY2 = ObjectAnimator.ofFloat(shadow, "scaleY", 1, 1.5f).setDuration(singleTime);
             } else {
                 scaleX2 = ObjectAnimator.ofFloat(shadow, "scaleX", 1.5f, 0f).setDuration(800);
                 scaleY2 = ObjectAnimator.ofFloat(shadow, "scaleY", 1.5f, 0f).setDuration(800);
             }
             //影子延迟缩小的动画
-            ObjectAnimator delay_x0= ObjectAnimator.ofFloat(shadow, "scaleX", 1.5f, 0f).setDuration(500);
-            ObjectAnimator delay_y0= ObjectAnimator.ofFloat(shadow, "scaleY", 1.5f, 0f).setDuration(500);
+            ObjectAnimator delay_x0= ObjectAnimator.ofFloat(shadow, "scaleX", 1.5f, 0f).setDuration(singleTime);
+            ObjectAnimator delay_y0= ObjectAnimator.ofFloat(shadow, "scaleY", 1.5f, 0f).setDuration(singleTime);
 
             AnimatorSet shadowEndAnimatorSet = new AnimatorSet();
             AnimatorSet.Builder with = shadowEndAnimatorSet.play(scaleX2).with(scaleY2);
             if (isStartTop){//如果是 从顶部落下 影子需要延迟缩小
-                delay_x0.setStartDelay(500);
-                delay_y0.setStartDelay(500);
+                delay_x0.setStartDelay(singleTime);
+                delay_y0.setStartDelay(singleTime);
                 with.with(delay_x0).with(delay_y0);
             }
 

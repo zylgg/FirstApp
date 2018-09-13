@@ -69,6 +69,7 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener,
         }
     }
 
+    private   HomeThemeAdapter madapter;
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
@@ -85,7 +86,6 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener,
         tl_home_tab = view.findViewById(R.id.tl_home_tab);
         vp_home_content = view.findViewById(R.id.vp_home_content);
 
-
         final TransitionDrawable drawable= (TransitionDrawable) ResourcesCompat.getDrawable(getResources(),R.drawable.transition1,null);
         final TransitionDrawable drawable2= (TransitionDrawable) ResourcesCompat.getDrawable(getResources(),R.drawable.transition2,null);
         ll_home_tab.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +97,9 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener,
         });
 
         MainActivity activity = (MainActivity) getActivity();
-        vp_home_content.setAdapter(new HomeThemeAdapter(activity, this, activity.getSupportFragmentManager()));
+        madapter= new HomeThemeAdapter(activity, this, activity.getSupportFragmentManager());
+//        madapter.notifyDataSetChanged();
+        vp_home_content.setAdapter(madapter);
         tl_home_tab.setupWithViewPager(vp_home_content);
     }
 
@@ -150,6 +152,7 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener,
 
     @Override
     public void onClick(View v) {
+        madapter.notifyDataSetChanged();
         Intent intent = new Intent(getActivity(), ScrollingActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         NotificationUtils notificationUtils = new NotificationUtils(getContext());

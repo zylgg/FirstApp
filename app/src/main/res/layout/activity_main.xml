@@ -7,44 +7,42 @@
     android:orientation="vertical"
     tools:context="com.example.jhzyl.firstapp.MainActivity">
 
-    <android.support.constraint.ConstraintLayout
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
 
-        </android.support.v4.view.ViewPager>
-
-
-    </android.support.constraint.ConstraintLayout>
 
     <RadioGroup
         android:id="@+id/rg_bottom_menu"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:orientation="horizontal"
-        >
+        android:background="#88ffffff"
+        android:orientation="horizontal">
+
         <RadioButton
             android:id="@+id/rb_home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical|left"
+            android:background="@color/transparent"
             android:drawableRight="@drawable/ic_home_black_24dp"
-            android:text="@string/title_home"/>
+            android:gravity="center_vertical|left"
+            android:text="@string/title_home" />
 
         <RadioButton
             android:id="@+id/rb_dashboard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical|left"
+            android:background="@color/transparent"
             android:drawableRight="@drawable/ic_dashboard_black_24dp"
-            android:text="@string/title_dashboard"/>
+            android:gravity="center_vertical|left"
+            android:text="@string/title_dashboard" />
         <!--android:button="@null"-->
         <!--android:drawableRight="@android:drawable/btn_radio"-->
     </RadioGroup>

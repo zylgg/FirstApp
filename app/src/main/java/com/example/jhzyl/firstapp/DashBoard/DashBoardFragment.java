@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ public class DashBoardFragment extends Fragment {
     private AppBarLayout app_bar;
     private CoordinatorLayout cl;
     private View v_board_fragment_status;
+    private View t_titles;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class DashBoardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         cl = view.findViewById(R.id.cl);
+        t_titles=view.findViewById(R.id.t_titles);
         v_board_fragment_status = view.findViewById(R.id.v_board_fragment_status);
         app_bar = view.findViewById(R.id.app_bar);
         iv_dash_board_title = view.findViewById(R.id.iv_dash_board_title);
@@ -81,12 +84,12 @@ public class DashBoardFragment extends Fragment {
         pager = view.findViewById(R.id.pager);
 
         int statusH = SystemAppUtils.getStatusHeight(getContext());
+        v_board_fragment_status.getLayoutParams().height=statusH;
 
-        v_board_fragment_status.getLayoutParams().height =statusH;
-        v_board_fragment_status.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT ? View.GONE : View.VISIBLE);
         if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.KITKAT&&Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
             app_bar.setPadding(0, statusH, 0, 0);
         }
+
         LinearLayout childAt = (LinearLayout) tabs.getChildAt(0);
         childAt.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
         app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -98,6 +101,7 @@ public class DashBoardFragment extends Fragment {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     float expandedPercentage = verticalOffset_abs / totalScrollRange;
                     v_board_fragment_status.setBackgroundColor(ColorUtils.blendARGB(Color.TRANSPARENT, getResources().getColor(R.color.colorAccent), expandedPercentage));
+                    t_titles.setBackgroundColor(ColorUtils.blendARGB(Color.TRANSPARENT, getResources().getColor(R.color.colorAccent), expandedPercentage));
                 }
                 if (verticalOffset_abs == totalScrollRange) {//完全关闭
                     EventBus.getDefault().post(SuperAwesomeCardFragment.PullState.whileClose);
@@ -111,7 +115,7 @@ public class DashBoardFragment extends Fragment {
         });
 
         Picasso.with(getContext()).load("http://inews.gtimg.com/newsapp_match/0/3348583155/0").into(iv_dash_board_title);
-        pager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager()));
+        pager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
         tabs.setViewPager(pager);
 
     }
