@@ -224,15 +224,15 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         pager.addOnPageChangeListener(mPageListener);
         pager.getAdapter().registerDataSetObserver(mAdapterObserver);
         mAdapterObserver.setAttached(true);
-        notifyDataSetChanged();
+        notifyDataSetChanged(false);
     }
     /**
      * 为 单独计算tab总宽度 临时准备的"展开模式"，计算完复原
      */
     private int isExpandTabs_measureing=999;
-    public void notifyDataSetChanged() {
+    public void notifyDataSetChanged(boolean is_secondNotif) {
         mTabsContainer.removeAllViews();
-        if (isExpandTabs_FirstConfig==WrapExpand) {//如果是自动展开，需要重置params宽为wrap_content，用于计算tabs总宽度
+        if (isExpandTabs_FirstConfig==WrapExpand&&!is_secondNotif) {//如果是自动展开，需要重置params宽为wrap_content，用于计算tabs总宽度
             isExpandTabs_measureing=this.isExpandTabs;
             this.isExpandTabs = NoExpand;
             mTabLayoutParams= new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
@@ -253,7 +253,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         // 测量宽度，
         mTabsContainer.measure(0, 0);
         //复原当前 展开莫斯
-        this.isExpandTabs=isExpandTabs_measureing;
+        if (isExpandTabs_measureing==WrapExpand&&!is_secondNotif) {
+            this.isExpandTabs=isExpandTabs_measureing;
+        }
 
         if (mTabsContainer.getMeasuredWidth() > 0&&isExpandTabs_FirstConfig==WrapExpand) {// 默认扩增时，满一屏按权重处理
             if (mTabsContainer.getMeasuredWidth() <= getContext().getResources().getDisplayMetrics().widthPixels) {
@@ -524,7 +526,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
         @Override
         public void onChanged() {
-            notifyDataSetChanged();
+            notifyDataSetChanged(false);
         }
 
         void setAttached(boolean attached) {
@@ -754,7 +756,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f) :
                 new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         if (mPager != null) {
-            notifyDataSetChanged();
+            notifyDataSetChanged(true);
         }
     }
 

@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
@@ -125,12 +126,12 @@ public class DashBoardFragment extends Fragment {
         return (int) (dipValue * scale + 0.5f);
     }
 
-    public class MyPagerAdapter extends FragmentStatePagerAdapter {
+    public class MyPagerAdapter extends FragmentPagerAdapter {
 
         private final String[] TITLES = {
                 "A____A", "BB", "C____C"
-                , "本草纲目植物"
-                , "E____E", "F____F", "G____G", "H____H"
+//                , "本草纲目植物"
+//                , "E____E", "F____F", "G____G", "H____H"
         };
 
         MyPagerAdapter(FragmentManager fm) {
