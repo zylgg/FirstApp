@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
@@ -47,6 +49,7 @@ public class SuperAwesomeCardFragment extends Fragment {
     private static final String ARG_POSITION = "position";
     private XRefreshView xrv_my_refreshview;
     private int position;
+    private View view;
 
     public static SuperAwesomeCardFragment newInstance(int position) {
         SuperAwesomeCardFragment f = new SuperAwesomeCardFragment();
@@ -64,8 +67,14 @@ public class SuperAwesomeCardFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.listview_layout, container, false);
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (view==null){
+            view = inflater.inflate(R.layout.listview_layout, container,false);
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent!=null){
+            parent.removeView(view);
+        }
         return view;
     }
 
@@ -90,9 +99,10 @@ public class SuperAwesomeCardFragment extends Fragment {
 
         rv_my_listView.setHasFixedSize(true);
         rv_my_listView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        mAdapter = new MyAdapter(mLists);
-        rv_my_listView.setAdapter(mAdapter);
-
+        if (mAdapter==null){
+            mAdapter = new MyAdapter(mLists);
+            rv_my_listView.setAdapter(mAdapter);
+        }
         xrv_my_refreshview = view.findViewById(R.id.xrv_my_refreshview);
         xrv_my_refreshview.setPinnedTime(1000);
         xrv_my_refreshview.setMoveForHorizontal(true);
@@ -119,8 +129,8 @@ public class SuperAwesomeCardFragment extends Fragment {
 //                loadMore();
             }
         });
-        xrv_my_refreshview.startRefresh();
-
+//        xrv_my_refreshview.startRefresh();
+        refreshData();
     }
 
     RecyclerView.OnScrollListener onScrollListener= new RecyclerView.OnScrollListener() {
@@ -162,7 +172,19 @@ public class SuperAwesomeCardFragment extends Fragment {
 
         xrv_my_refreshview.stopRefresh();
         mAdapter.Refresh(mLists);
+        Log.i("mLists",""+mLists.size());
+
+//        FragmentManager childFragmentManager = getParentFragment().getChildFragmentManager();
+//        List<Fragment> fragments = childFragmentManager.getFragments();
+//        Log.i("mLists","fragments_"+fragments.size());
+
         rv_my_listView.addOnScrollListener(onScrollListener);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i("mLists","onDestroyView");
     }
 
     private boolean is_loading=false;

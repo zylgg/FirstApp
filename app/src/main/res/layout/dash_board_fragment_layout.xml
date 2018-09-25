@@ -63,10 +63,11 @@
                 app:pstsDividerWidth="1dp"
                 app:pstsIndicatorColor="@android:color/white"
                 app:pstsShouldExpand="wrapexpand"
+                app:pstsIndicatorSlidingType="bugsTypes"
                 app:pstsTabPaddingLeftRight="20dp"
                 app:pstsIsIndicatorWidthByText="true"
                 app:pstsTabTextColor="@drawable/tab_color_select" />
-
+            <!--app:pstsIndicatorSlidingType="default"-->
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.view.ViewPager

@@ -24,12 +24,15 @@ import android.widget.LinearLayout;
 
 import com.andview.refreshview.XRefreshView;
 import com.example.jhzyl.firstapp.DashBoard.PagerTab.PagerSlidingTabStrip;
+import com.example.jhzyl.firstapp.MainActivity;
 import com.example.jhzyl.firstapp.OnChangeStatusTextColorListener;
 import com.example.jhzyl.firstapp.R;
 import com.example.jhzyl.firstapp.utils.SystemAppUtils;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 public class DashBoardFragment extends Fragment {
 
@@ -116,8 +119,11 @@ public class DashBoardFragment extends Fragment {
         });
 
         Picasso.with(getContext()).load("http://inews.gtimg.com/newsapp_match/0/3348583155/0").into(iv_dash_board_title);
-        pager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
+        MainActivity activity = (MainActivity) getActivity();
+
+        pager.setAdapter(new MyPagerAdapter(activity.getSupportFragmentManager()));
         tabs.setViewPager(pager);
+
 
     }
 
@@ -130,8 +136,8 @@ public class DashBoardFragment extends Fragment {
 
         private final String[] TITLES = {
                 "A____A", "BB", "C____C"
-//                , "本草纲目植物"
-//                , "E____E", "F____F", "G____G", "H____H"
+                , "本草纲目植物"
+                , "E____E", "F____F", "G____G", "H____H"
         };
 
         MyPagerAdapter(FragmentManager fm) {
