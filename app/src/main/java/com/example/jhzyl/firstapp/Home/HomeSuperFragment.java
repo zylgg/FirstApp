@@ -68,7 +68,10 @@ public class HomeSuperFragment extends Fragment {
         xrv_super_theme = view.findViewById(R.id.xrv_super_theme);
         xrv_super_theme.setXRefreshViewListener(xRefreshViewListener);
         rv_super_theme_lists = view.findViewById(R.id.rv_super_theme_lists);
-        rv_super_theme_lists.addItemDecoration(new MyDecoration(getContext()));
+
+        MyDecoration decoration=new MyDecoration(getContext());
+        decoration.setVerticalLine(R.drawable.my_decoration2);
+        rv_super_theme_lists.addItemDecoration(decoration);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6, GridLayoutManager.VERTICAL, false);
 //        StaggeredGridLayoutManager manager2 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);

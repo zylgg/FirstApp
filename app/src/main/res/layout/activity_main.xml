@@ -43,6 +43,16 @@
             android:drawableRight="@drawable/ic_dashboard_black_24dp"
             android:gravity="center_vertical|left"
             android:text="@string/title_dashboard" />
+
+        <!--<RadioButton-->
+            <!--android:id="@+id/rb_home2"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/transparent"-->
+            <!--android:drawableRight="@drawable/ic_home_black_24dp"-->
+            <!--android:gravity="center_vertical|left"-->
+            <!--android:text="@string/title_home" />-->
         <!--android:button="@null"-->
         <!--android:drawableRight="@android:drawable/btn_radio"-->
     </RadioGroup>

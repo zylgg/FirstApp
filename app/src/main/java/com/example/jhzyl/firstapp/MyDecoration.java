@@ -21,6 +21,7 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
     public static final String TAG = "MyDecoration";
     private Context mContext;
     private Drawable mDivider;
+    private Drawable mDivider_vertical;
     private int mOrientation;
     public static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
     public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
@@ -51,6 +52,15 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
             } else {
                 this.mDivider = context.getResources().getDrawable(resid);
             }
+        }
+    }
+
+    public void setVerticalLine(int resid) {
+        if (mContext == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.mDivider_vertical = mContext.getResources().getDrawable(resid, null);
+        } else {
+            this.mDivider_vertical = mContext.getResources().getDrawable(resid);
         }
     }
 
@@ -86,8 +96,14 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
         if (layoutManager instanceof GridLayoutManager) {
             mSpanCount = ((GridLayoutManager) layoutManager).getSpanCount();
         }
-//        Log.i(TAG, "drawHorizontalLine: " + mSpanCount);
+        Log.i(TAG, "drawHorizontalLine: " + mSpanCount);
         for (int i = 0; i < childCount - mSpanCount; i++) {
+            Log.i(TAG, "i: " + i);
+            RecyclerView.Adapter adapter= parent.getAdapter();
+            int type=adapter.getItemViewType(i);
+
+            Log.i(TAG, "type: " + type+"----------------------");
+
             final View child = parent.getChildAt(i);
 
             //获得child的布局信息
@@ -123,13 +139,13 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
             //获得child的布局信息
             final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
             if (mSpanCount > 0) {
-                 top = child.getTop();
-                 bottom = child.getBottom();
+                top = child.getTop();
+                bottom = child.getBottom();
             }
             final int left = child.getRight() + params.rightMargin;
-            final int right = left + mDivider.getIntrinsicWidth();
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
+            final int right = left + mDivider_vertical.getIntrinsicWidth();
+            mDivider_vertical.setBounds(left, top, right, bottom);
+            mDivider_vertical.draw(c);
         }
     }
 
@@ -138,7 +154,7 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         if (mOrientation == HORIZONTAL_LIST) {
             //画竖线，就是往右偏移一个分割线的宽度
-            outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
+            outRect.set(0, 0, mDivider_vertical.getIntrinsicWidth(), 0);
         } else {
             //画横线，就是往下偏移一个分割线的高度
             outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());

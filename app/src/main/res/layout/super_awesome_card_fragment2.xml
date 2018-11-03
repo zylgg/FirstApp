@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f8f8">
+
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/qgp_goods_shop_xrfv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.andview.refreshview.XScrollView
+            android:id="@+id/qgp_goods_shop_xsv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/qgp_shop_vp_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/qgp_goods_shop_vp"
+                        android:layout_width="match_parent"
+                        android:layout_height="152dp" />
+
+                    <LinearLayout
+                        android:id="@+id/qgp_goods_shop_indicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="140dp"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_qgp_shop_live"
+                    android:layout_width="match_parent"
+                    android:layout_height="85dp"
+                    android:background="@color/white" >
+
+                    <ImageView
+                        android:id="@+id/tv_qgp_shop_live_icon"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:background="@color/blue"/>
+                    <!-- android:src="@drawable/qgp_load_img_fail" -->
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="9dp"
+                        android:layout_toRightOf="@+id/tv_qgp_shop_live_icon"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/tv_qgp_shop_live_title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="大标题"
+                            android:textColor="#333333"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:id="@+id/tv_qgp_shop_live_title2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/tv_qgp_shop_icon"
+                            android:text="小标题"
+                            android:textColor="#666666"
+                            android:textSize="13dp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/pink" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" >
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/qgp_goods_shop_coupon_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+                    </android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/gqp_goods_shop_ad"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:background="@color/blue" />
+
+                <TextView
+                    android:id="@+id/gqp_goods_shop_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="375dp"
+                    android:background="@color/pink"
+                    android:text="123456"
+                    android:gravity="bottom"/>
+            </LinearLayout>
+        </com.andview.refreshview.XScrollView>
+    </com.andview.refreshview.XRefreshView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="130dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/iv_qgp_goods_shop_totop"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/blue" />
+
+        <ImageView
+            android:id="@+id/iv_qgp_goods_shop_kefu"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/pink" />
+    </LinearLayout>
+
+</RelativeLayout>

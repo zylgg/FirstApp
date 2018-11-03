@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.jhzyl.firstapp.DashBoard.DashBoardFragment;
+import com.example.jhzyl.firstapp.DashBoard.SuperAwesomeCardFragment2;
 import com.example.jhzyl.firstapp.Home.HomeFragment;
 import com.example.jhzyl.firstapp.adapter.MyVpAdapter;
 import com.example.jhzyl.firstapp.utils.StatusBarUtils;
@@ -30,8 +31,10 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId==R.id.rb_home){
                 vp_content.setCurrentItem(0);
-            }else{
+            }else if (checkedId==R.id.rb_dashboard){
                 vp_content.setCurrentItem(1);
+            }else{
+                vp_content.setCurrentItem(2);
             }
 //            MyToast.T(MainActivity.this,"checkedId:"+checkedId);
         }
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
         MyVpAdapter myVpAdapter = new MyVpAdapter(getSupportFragmentManager());
         myVpAdapter.addFragment(HomeFragment.getInstance(this));
         myVpAdapter.addFragment(DashBoardFragment.getInstance(this));
+//        myVpAdapter.addFragment(new SuperAwesomeCardFragment2());
         vp_content.setAdapter(myVpAdapter);
         vp_content.addOnPageChangeListener(onPageChangeListener);
         vp_content.setOffscreenPageLimit(1);

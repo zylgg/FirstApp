@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="colorPrimaryDark">@color/blue</item>
 
         <item name="colorPrimary">@color/blue</item>//控件拉伸默认色
         <item name="colorAccent">@color/pink</item>//控件的默认色

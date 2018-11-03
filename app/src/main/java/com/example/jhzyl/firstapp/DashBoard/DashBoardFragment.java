@@ -156,6 +156,9 @@ public class DashBoardFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
+//            if (position==TITLES.length-1){
+//                return new SuperAwesomeCardFragment2();
+//            }
             return SuperAwesomeCardFragment.newInstance(position);
         }
 

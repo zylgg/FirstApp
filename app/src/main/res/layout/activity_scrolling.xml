@@ -11,10 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
-        android:fitsSystemWindows="true"
-        app:elevation="0dp"
         android:fadingEdge="none"
-        >
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -42,46 +41,28 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="我是Toolbar标题布局"
-                    android:textColor="@color/blue"
-                    android:gravity="center"/>
+                    android:textColor="@color/blue" />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
-       <android.support.design.widget.TabLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:elevation="0dp"
-           >
-           <android.support.design.widget.TabItem
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="tab1"/>
-           <android.support.design.widget.TabItem
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="tab2"/>
-           <android.support.design.widget.TabItem
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="tab3"/>
-       </android.support.design.widget.TabLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_scrolling"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="0dp">
+        </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_scrolling"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".Home.ScrollingActivity"
-        tools:showIn="@layout/activity_scrolling">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text" />
-
-    </android.support.v4.widget.NestedScrollView>
-
+    </android.support.v4.view.ViewPager>
 
 </android.support.design.widget.CoordinatorLayout>
