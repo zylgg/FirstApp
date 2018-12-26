@@ -76,6 +76,7 @@ public class HomeSuperFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6, GridLayoutManager.VERTICAL, false);
 //        StaggeredGridLayoutManager manager2 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rv_super_theme_lists.setLayoutManager(gridLayoutManager);
+        rv_super_theme_lists.setNestedScrollingEnabled(false);
 
         rv_super_theme_lists.setAdapter(new HomeSuperFragment.MyRvAdapter());
         rv_super_theme_lists.addOnScrollListener(RvScrollListener.getInstance(onVisibilityTitleListener));
