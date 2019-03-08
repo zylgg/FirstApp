@@ -47,7 +47,7 @@ public class HomeThemeAdapter extends FragmentPagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        if (position==0||position==stringArray.length-1)return;
-        super.destroyItem(container, position, object);
+//        if (position==0||position==stringArray.length-1)return;
+//        super.destroyItem(container, position, object);
     }
 }

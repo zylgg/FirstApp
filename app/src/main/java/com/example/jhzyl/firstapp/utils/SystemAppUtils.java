@@ -2,6 +2,8 @@ package com.example.jhzyl.firstapp.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Window;
@@ -10,6 +12,21 @@ import android.view.WindowManager;
 import java.lang.reflect.Method;
 
 public class SystemAppUtils {
+
+    public static String getVersionName(Context context) {
+        String versionName = "";
+        PackageManager packageManager = context.getPackageManager();
+        String packageName = context.getPackageName();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(packageName,0);
+            versionName = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
+    }
+
+
     //获取精确的屏幕原始尺寸高度，包括虚拟功能键高度，
     public static int getDpi(Context context) {
         int dpi = 0;

@@ -1,51 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.example.jhzyl.firstapp.MainActivity">
+    android:layout_height="match_parent">
 
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_content"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context="com.example.jhzyl.firstapp.MainActivity">
 
-    </android.support.v4.view.ViewPager>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </android.support.v4.view.ViewPager>
 
 
-    <RadioGroup
-        android:id="@+id/rg_bottom_menu"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#88ffffff"
-        android:orientation="horizontal">
+        <RadioGroup
+            android:id="@+id/rg_bottom_menu"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#88ffffff"
+            android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/rb_home"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:drawableRight="@drawable/ic_home_black_24dp"
-            android:gravity="center_vertical|left"
-            android:text="@string/title_home" />
+            <RadioButton
+                android:id="@+id/rb_home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:drawableRight="@drawable/ic_home_black_24dp"
+                android:gravity="center_vertical|left"
+                android:text="@string/title_home" />
 
-        <RadioButton
-            android:id="@+id/rb_dashboard"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:drawableRight="@drawable/ic_dashboard_black_24dp"
-            android:gravity="center_vertical|left"
-            android:text="@string/title_dashboard" />
+            <RadioButton
+                android:id="@+id/rb_dashboard"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:drawableRight="@drawable/ic_dashboard_black_24dp"
+                android:gravity="center_vertical|left"
+                android:text="@string/title_dashboard" />
 
-        <!--<RadioButton-->
+            <!--<RadioButton-->
             <!--android:id="@+id/rb_home2"-->
             <!--android:layout_width="0dp"-->
             <!--android:layout_height="match_parent"-->
@@ -54,8 +58,79 @@
             <!--android:drawableRight="@drawable/ic_home_black_24dp"-->
             <!--android:gravity="center_vertical|left"-->
             <!--android:text="@string/title_home" />-->
-        <!--android:button="@null"-->
-        <!--android:drawableRight="@android:drawable/btn_radio"-->
-    </RadioGroup>
+            <!--android:button="@null"-->
+            <!--android:drawableRight="@android:drawable/btn_radio"-->
+        </RadioGroup>
 
-</LinearLayout>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_repair_log"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/fab＿query"
+        android:shadowColor="@color/pink"
+        android:shadowRadius="3"
+        android:text="阿发送到广博（guangbo）阿萨德发送到"
+        android:textSize="20dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab＿query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="310dp"
+        android:layout_marginLeft="310dp"
+        android:layout_marginTop="323dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_preferences" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="310dp"
+        android:layout_marginLeft="310dp"
+        android:layout_marginTop="403dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/edit_text" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_cleanLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="310dp"
+        android:layout_marginLeft="310dp"
+        android:layout_marginTop="483dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@+id/fab_test">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自营"
+            android:layout_marginLeft="1dp"
+            android:textColor="#fff"
+            android:background="@drawable/ziying_icon_shpe"/>
+
+        <com.example.jhzyl.firstapp.IconTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="          阿看第三方家里矿搭撒解放路肯定是附近拉速度快就发螺丝孔发动机撒来看待房间阿斯利的看法家啊"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

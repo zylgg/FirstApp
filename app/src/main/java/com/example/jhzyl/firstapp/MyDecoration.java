@@ -96,16 +96,9 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
         if (layoutManager instanceof GridLayoutManager) {
             mSpanCount = ((GridLayoutManager) layoutManager).getSpanCount();
         }
-        Log.i(TAG, "drawHorizontalLine: " + mSpanCount);
-        for (int i = 0; i < childCount - mSpanCount; i++) {
-            Log.i(TAG, "i: " + i);
+        for (int i = 0; i < childCount; i++) {
             RecyclerView.Adapter adapter= parent.getAdapter();
-            int type=adapter.getItemViewType(i);
-
-            Log.i(TAG, "type: " + type+"----------------------");
-
             final View child = parent.getChildAt(i);
-
             //获得child的布局信息
             final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
             if (mSpanCount > 0) {
@@ -116,7 +109,6 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
             final int bottom = top + mDivider.getIntrinsicHeight();
             mDivider.setBounds(left, top, right, bottom);
             mDivider.draw(c);
-            //Log.d("wnw", left + " " + top + " "+right+"   "+bottom+" "+i);
         }
     }
 
@@ -131,8 +123,6 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
         if (layoutManager instanceof GridLayoutManager) {
             mSpanCount = ((GridLayoutManager) layoutManager).getSpanCount();
         }
-
-//        Log.i(TAG, "drawVerticalLine: " + childCount);
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
 
