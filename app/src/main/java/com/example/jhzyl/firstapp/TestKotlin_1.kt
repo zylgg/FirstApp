@@ -36,6 +36,8 @@ class TestKotlin_1 {
 //        return s3;
 //    }
 
+
+    //模板表达式，即一些小段代码，会求值并把结果合并到字符串中
     val i = 1
 
     val str = "i =$i" // evaluates to "i = 1"
@@ -61,15 +63,15 @@ class TestKotlin_1 {
 //        }
 
         arrays2.set(0,"a");
-        arrays2.set(1,"a");
-        arrays2.set(2,"b");
-        arrays2.set(3,"c");
-        arrays2.set(4,"d");
-        arrays2.set(5,"a");
-        arrays2.set(6,"b");
-        arrays2.set(7,"c");
-        arrays2.set(8,"d");
-        arrays2.set(9,"e");
+        arrays2.set(1,"b");
+        arrays2.set(2,"c");
+        arrays2.set(3,"d");
+        arrays2.set(4,"e");
+        arrays2.set(5,"f");
+        arrays2.set(6,"g");
+        arrays2.set(7,"h");
+        arrays2.set(8,"j");
+        arrays2.set(9,"k");
 
         for (c in arrays2){
             w=w+"__"+c;
