@@ -2,7 +2,48 @@ package com.example.jhzyl.firstapp
 
 import kotlin.random.Random
 
-class TestKotlin_1 {
+ open class TestKotlin_1 {
+
+    //主构造函数   在Kotlin中的类可以有主构造函数 和一个或多个二级构造函数。
+    class TestKotlin_1 constructor(name: String) {
+        var names: String = "";
+        var old: Int = 0;
+        var high: Float = 1f;
+
+        init {//这个主构造函数不能包含任何的代码。初始化的代码可以被放置在（初始的模块），以init为前缀
+            this.names = name;
+        }
+
+        //二级构造
+        constructor(name: String, old: Int) : this(name) {
+            this.old = old;
+        }
+
+        //二级构造
+        constructor(name: String, old: Int, high: Float) : this(name, old) {
+            this.high = high;
+        }
+    }
+
+     //加 open 子类就能重写了
+    open fun startClass0(){
+         println("可被重写")
+     }
+
+     //加了open子类可以重写我，
+   open  fun startClass() {
+        var p1 = TestKotlin_1("张三")
+        println("姓名"+p1.names)
+        var p2 = TestKotlin_1("李四", 18, 180f);
+        println("姓名"+p2.names + "_年龄" +p2.old+ "_身高"+p2.high)
+    }
+
+     //没加 open 子类就不能重写了
+     fun startClass2(){
+       println("我不能被重写哦")
+     }
+
+
 //    var s:Int =123;
 //    var s2:Int =456;
 //    var s3:String= "11";
@@ -138,50 +179,52 @@ class TestKotlin_1 {
     }
 
     fun returnFoo0() {
-        var i=(11..15)
+        var i = (11..15)
 //        i.forEach {
 //            if (it == 0) return@a1
 //            println("第一层循环"+it)
 //        }
-        i.forEach(fun (value : Int){
+        i.forEach(fun(value: Int) {
             if (value == 13) return
             println(value)
         })
     }
 
     fun returnFoo() {
-        var i=(11..15)
-        var its=(-3..5)
+        var i = (11..15)
+        var its = (-3..5)
         i.forEach {
-            println("第一层循环"+it)
+            println("第一层循环" + it)
 
             its.forEach() {
                 if (it == 0) return
-                println("第二层循环"+it)
+                println("第二层循环" + it)
             }
         }
     }
+
     fun returnFoo1() {
-        var i=(11..15)
-        var its=(-3..5)
+        var i = (11..15)
+        var its = (-3..5)
         i.forEach lit@{
-            println("第一层循环"+it)
+            println("第一层循环" + it)
 
             its.forEach() {
                 if (it == 0) return@lit
-                println("第二层循环"+it)
+                println("第二层循环" + it)
             }
         }
     }
+
     fun returnFoo2() {
-        var i=(11..15)
-        var its=(-3..5)
+        var i = (11..15)
+        var its = (-3..5)
         i.forEach {
-            println("第一层循环"+it)
+            println("第一层循环" + it)
 
             its.forEach() lit@{
                 if (it == 0) return@lit
-                println("第二层循环"+it)
+                println("第二层循环" + it)
             }
         }
     }

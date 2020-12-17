@@ -7,7 +7,7 @@ import java.util.List;
 public class TestListIterator {
 
     public static void main(String[] args) {
-        TestKotlin_1 kotlinBean = new TestKotlin_1();
+        TestKotlin_3 kotlinBean = new TestKotlin_3();
 //        int i = kotlinBean.sum(kotlinBean.getS(), kotlinBean.getS2());
 //        String fuzhi = kotlinBean.fuzhi("null");
 //        boolean withs = kotlinBean.withss(kotlinBean.getA1(), kotlinBean.getB1());
@@ -19,7 +19,10 @@ public class TestListIterator {
 //        String s = kotlinBean.printWhenOther2(6);
 //        System.out.println(s);
 //          kotlinBean.printForPrint();
-          kotlinBean.returnFoo0();
+//          kotlinBean.startClass();
+
+        C c=new C();
+        c.f();;
 
 //        String s1 = kotlinBean.printWhen(1);
 //        String s2 = kotlinBean.printWhen(2);
