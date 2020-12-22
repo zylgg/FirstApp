@@ -33,11 +33,45 @@ class ExampleUnitTest2 {
         }
     }
 
+
     @Test
     fun main(){
 //        printWhileS2()
 //        println(printWhileS());
+//        foreach(TestKotlin_6.mmmm2);
+//        TestKotlin_6.init();
+//        println("静态初始化");
+//        foreach(TestKotlin_6.mmmm2)
+//
+//        var testkotlin6=TestKotlin_6();
+//        val countsByNet = testkotlin6.getCountsByNet(Testkotlin_6s.counts(1F))
+//        println(countsByNet);
 
+
+        //测试枚举
+//        println("name: ${TestKotlin_enum.SPRING.name}" +
+//                ",ordinal:${TestKotlin_enum.SPRING.ordinal} " +
+//                ", temperature： ${TestKotlin_enum.SPRING.temperature}")
+//
+//        println("name: ${TestKotlin_enum2.SATURDAY.name}" +
+//                ",ordinal:${TestKotlin_enum2.SATURDAY.ordinal} " +
+//                ", temperature： ${TestKotlin_enum2.SATURDAY.temperature}")
+        test()
+    }
+
+
+    fun isOdd(x: Int) = x % 2 != 0
+
+    fun test() {
+        var list = listOf(1, 2, 3, 4, 5)
+        println(list.filter(this::isOdd))
+    }
+
+
+    fun foreach(array:IntArray){
+        array.forEach {
+            println(it)
+        }
     }
 
 }

@@ -18,11 +18,19 @@ public class TestListIterator {
 
 //        String s = kotlinBean.printWhenOther2(6);
 //        System.out.println(s);
-//          kotlinBean.printForPrint();
-//          kotlinBean.startClass();
+//        kotlinBean.printForPrint();
+//        kotlinBean.startClass();
 
-        C c=new C();
-        c.f();;
+//        C c=new C();
+//        c.f();;
+//        TestKotlin_6 testKotlin_6=new TestKotlin_6();
+//
+//        Object countsByNet = testKotlin_6.getCountsByNet(new Testkotlin_6s.counts(1));
+//        System.out.println(""+countsByNet);
+
+        TestKotlin_6 testKotlin_6=new TestKotlin_6();
+//        TestKotlin_6.Companion.getMmmm2();
+        testKotlin_6.main();
 
 //        String s1 = kotlinBean.printWhen(1);
 //        String s2 = kotlinBean.printWhen(2);

@@ -43,6 +43,18 @@ import kotlin.random.Random
        println("我不能被重写哦")
      }
 
+     //延迟初始化属性
+     lateinit var subject: TestKotlin_1
+
+     fun setup() {
+         subject = TestKotlin_1("小二")
+
+     }
+
+     fun test() {
+//         subject.method()  // dereference directly
+     }
+
 
 //    var s:Int =123;
 //    var s2:Int =456;
