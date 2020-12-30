@@ -1,8 +1,6 @@
 package com.example.jhzyl.firstapp;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class TestListIterator {
 
@@ -30,8 +28,9 @@ public class TestListIterator {
 
         TestKotlin_6 testKotlin_6=new TestKotlin_6();
 //        TestKotlin_6.Companion.getMmmm2();
-        testKotlin_6.main();
+//        testKotlin_6.main();
 
+//        UserDataBean_hungry.INSTANCE.getAge()
 //        String s1 = kotlinBean.printWhen(1);
 //        String s2 = kotlinBean.printWhen(2);
 //        kotlinBean.printWhenInteger(0);

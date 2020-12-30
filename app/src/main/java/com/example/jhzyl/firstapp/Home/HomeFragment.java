@@ -7,6 +7,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
@@ -24,6 +25,7 @@ import com.example.jhzyl.firstapp.Home.adapter.HomeThemeAdapter;
 import com.example.jhzyl.firstapp.MainActivity;
 import com.example.jhzyl.firstapp.OnChangeStatusTextColorListener;
 import com.example.jhzyl.firstapp.R;
+import com.example.jhzyl.firstapp.TestKotlin_builder;
 import com.example.jhzyl.firstapp.utils.SystemAppUtils;
 
 public class HomeFragment extends Fragment implements OnVisibilityTitleListener, View.OnClickListener {
@@ -143,16 +145,28 @@ public class HomeFragment extends Fragment implements OnVisibilityTitleListener,
 
     @Override
     public void onClick(View v) {
-        v.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(getActivity(), ScrollingActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                NotificationUtils notificationUtils = new NotificationUtils(getContext());
-                notificationUtils.sendNotification("测试标题fix", "测试内容fix", intent);
-            }
-        },3000);
+        TestKotlin_builder builder=new TestKotlin_builder.Builder(getContext()).setCancelOnBack(true).setIsCancelOutSide(false)
+                .setViewBackgroundColor(this.getResources().getColor(R.color.blue))
+                .setText("首页点击")
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(getContext(),ScrollingActivity.class));
+                    }
+                })
+                .setTextColor(Color.WHITE)
+                .setTextSize(20).create();
+        builder.show();
+//        v.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+////                Intent intent = new Intent(getActivity(), ScrollingActivity.class);
+////                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+////
+////                NotificationUtils notificationUtils = new NotificationUtils(getContext());
+////                notificationUtils.sendNotification("测试标题fix", "测试内容fix", intent);
+//            }
+//        },3000);
 
     }
 

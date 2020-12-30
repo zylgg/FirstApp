@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements OnChangeStatusTex
         tv_repair_log=findViewById(R.id.tv_repair_log);
         updateConsole(MySophixApplication.cacheMsg.toString());
 
-        fab＿query=findViewById(R.id.fab＿query);
+        fab＿query=findViewById(R.id.fab_query);
         fab_test=findViewById(R.id.fab_test);
         fab_cleanLog=findViewById(R.id.fab_cleanLog);
         vp_content = findViewById(R.id.vp_content);

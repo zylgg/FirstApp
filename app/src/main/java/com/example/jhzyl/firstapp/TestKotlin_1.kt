@@ -1,8 +1,9 @@
 package com.example.jhzyl.firstapp
 
+import android.app.Activity
 import kotlin.random.Random
 
- open class TestKotlin_1 {
+open class TestKotlin_1 {
 
     //主构造函数   在Kotlin中的类可以有主构造函数 和一个或多个二级构造函数。
     class TestKotlin_1 constructor(name: String) {
@@ -25,35 +26,35 @@ import kotlin.random.Random
         }
     }
 
-     //加 open 子类就能重写了
-    open fun startClass0(){
-         println("可被重写")
-     }
-
-     //加了open子类可以重写我，
-   open  fun startClass() {
-        var p1 = TestKotlin_1("张三")
-        println("姓名"+p1.names)
-        var p2 = TestKotlin_1("李四", 18, 180f);
-        println("姓名"+p2.names + "_年龄" +p2.old+ "_身高"+p2.high)
+    //加 open 子类就能重写了
+    open fun startClass0() {
+        println("可被重写")
     }
 
-     //没加 open 子类就不能重写了
-     fun startClass2(){
-       println("我不能被重写哦")
-     }
+    //加了open子类可以重写我，
+    open fun startClass() {
+        var p1 = TestKotlin_1("张三")
+        println("姓名" + p1.names)
+        var p2 = TestKotlin_1("李四", 18, 180f);
+        println("姓名" + p2.names + "_年龄" + p2.old + "_身高" + p2.high)
+    }
 
-     //延迟初始化属性
-     lateinit var subject: TestKotlin_1
+    //没加 open 子类就不能重写了
+    fun startClass2() {
+        println("我不能被重写哦")
+    }
 
-     fun setup() {
-         subject = TestKotlin_1("小二")
+    //延迟初始化属性
+    lateinit var subject: TestKotlin_1
 
-     }
+    fun setup() {
+        subject = TestKotlin_1("小二")
 
-     fun test() {
+    }
+
+    fun test() {
 //         subject.method()  // dereference directly
-     }
+    }
 
 
 //    var s:Int =123;
@@ -104,6 +105,11 @@ import kotlin.random.Random
     fun getstrsss(): String {
         return (str + "_______" + str2);
     };
+
+    private var class11: List<*> = mutableListOf("", "");
+    private var return011: Int = 0
+        get() = if (field < 0) 0 else field;
+
 
     val arrays: Array<String> = arrayOf("11", "22");
     val arrays2 = arrayOfNulls<String>(10);
@@ -214,6 +220,30 @@ import kotlin.random.Random
             }
         }
     }
+
+    //     Range默认是自增长的，如果是for(i in 10..0)则不会做任何事情，这时可以使用downTo，如：
+    fun printDownTo() {
+        for (i in 10 .. 0) {
+            print(i);
+        }
+    }
+
+    //     我们还可以 使用step来定义间隙，如：
+    fun printStep() {
+        for (i in 1..4 step 2) {
+            println("i--->"+i)
+        }
+    }
+//     上面的代码只会遍历到1、3
+
+
+    //  如果想创建一个开区间，可以使用until，如：
+    fun printUntil() {
+        for (i in 0 until 4) {
+            print(i)
+        }
+    }
+
 
     fun returnFoo1() {
         var i = (11..15)
