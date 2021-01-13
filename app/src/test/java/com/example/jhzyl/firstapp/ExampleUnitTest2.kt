@@ -1,32 +1,33 @@
 package com.example.jhzyl.firstapp
 
 import org.junit.Test
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.random.Random
 
 class ExampleUnitTest2 {
 
     //计算一下30%出现的概率有多高，，，
-    fun printWhileS() :String {
+    fun printWhileS(): String {
         var k = 0
-        var sum_30 :Int=0;
-        var sum_70 :Int=0;
-        while (k<10) {
+        var sum_30: Int = 0;
+        var sum_70: Int = 0;
+        while (k < 10) {
             var a: Int = Random.nextInt(10);
 
             if (a < 4) sum_30++ else sum_70++
 
             k++;
         }
-        return sum_30.toString()+"_"+sum_70
+        return sum_30.toString() + "_" + sum_70
 
     }
 
     fun printWhileS2() {
         var k = 0
-        while (k<10) {
+        while (k < 10) {
             val a: Int = Random.nextInt(10);
             println(a)
-            val m=if (a < 4) "30%" else "70%"
+            val m = if (a < 4) "30%" else "70%"
             println("概率是：" + m)
             k++;
         }
@@ -34,7 +35,7 @@ class ExampleUnitTest2 {
 
 
     @Test
-    fun main(){
+    fun main() {
 //        printWhileS2()
 //        println(printWhileS());
 //        foreach(TestKotlin_6.mmmm2);
@@ -56,6 +57,20 @@ class ExampleUnitTest2 {
 //                ",ordinal:${TestKotlin_enum2.SATURDAY.ordinal} " +
 //                ", temperature： ${TestKotlin_enum2.SATURDAY.temperature}")
 //        test()
+        val hashMap: ConcurrentHashMap<String, Int> = ConcurrentHashMap<String, Int>()
+        hashMap["a"] = 1
+        hashMap["ab"] = 12
+        hashMap["abc"] = 123
+        hashMap["abcd"] = 1234
+        hashMap["abcde"] = 12345
+//        hashMap["abcdef"] = 123456;
+        val it: Iterator<*> = hashMap.keys.iterator()
+        while (it.hasNext()) {
+            val k = it.next() as String
+            val v = hashMap[k] as Int
+            println("k=$k--v=$v")
+        }
+//        test()
         //单例测试
 //        UserDataBean_lazy.getInstance();
 //        val gets = UserDataBean_lazy.gets;
@@ -71,10 +86,10 @@ class ExampleUnitTest2 {
 //        var datas= mutableListOf<Int>(1,2,3,4,5,6,7,8,9);
 //        datas.addStrByLastIndex(datas);
 
-        val testkotlin1 = TestKotlin_1()
-        testkotlin1.printDownTo();
-        testkotlin1.printStep();
-        testkotlin1.printUntil()
+//        val testkotlin1 = TestKotlin_1()
+//        testkotlin1.printDownTo();
+//        testkotlin1.printStep();
+//        testkotlin1.printUntil()
 
     }
 
@@ -101,7 +116,7 @@ class ExampleUnitTest2 {
     }
 
 
-    fun foreach(array:IntArray){
+    fun foreach(array: IntArray) {
         array.forEach {
             println(it)
         }
