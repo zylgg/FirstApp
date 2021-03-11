@@ -4,7 +4,7 @@ class UserDataBean_lazy private constructor() {
     var age = 1;
     var name = "李四"
 
-//        companion object {                                       //单例新手推荐写法
+//        companion object {                                                    //单例新手推荐写法
 //        private var instance: UserDataBean_lazy? = null
 //
 //        fun get(): UserDataBean_lazy{
@@ -35,7 +35,7 @@ class UserDataBean_lazy private constructor() {
     }
 //以上三种写法结果一致。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
 
-//    companion object{                                            //单例新手推荐写法
+//    companion object{//线程安全的懒加载                                            //单例新手推荐写法
 //        private var instance:UserDataBean_lazy?=null
 //
 //        @Synchronized

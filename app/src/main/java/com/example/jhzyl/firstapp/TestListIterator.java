@@ -1,6 +1,8 @@
 package com.example.jhzyl.firstapp;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class TestListIterator {
 
@@ -65,6 +67,18 @@ public class TestListIterator {
 //            System.out.println(""+s.getName());
 //        }
 //        TestListIterator.bubbleSort(NUMBERS);
+
+        HashMap<String,String> maps=new HashMap<>();
+        maps.put(null,"c");
+        maps.put("a",null);
+        maps.put("b",null);
+        Iterator<String> iterator = maps.keySet().iterator();
+        while (iterator.hasNext()){
+            String next = iterator.next();
+            String value=maps.get(next);
+            System.out.println("next:"+next+"--value:"+value);
+        }
+
 
     }
 

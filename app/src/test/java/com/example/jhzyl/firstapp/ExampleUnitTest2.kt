@@ -72,10 +72,9 @@ class ExampleUnitTest2 {
         }
 //        test()
         //单例测试
-//        UserDataBean_lazy.getInstance();
-//        val gets = UserDataBean_lazy.gets;
-//        var str=gets!!.age.toString()+"--"+gets.name;
-//        println(str);
+        val gets = UserDataBean_lazy.get;
+        var str=gets!!.age.toString()+"--"+gets.name;
+        println(str);
 //
 //
 //        UserDataBean_hungry.getInstance();

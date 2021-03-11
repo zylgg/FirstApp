@@ -223,8 +223,8 @@ open class TestKotlin_1 {
 
     //     Range默认是自增长的，如果是for(i in 10..0)则不会做任何事情，这时可以使用downTo，如：
     fun printDownTo() {
-        for (i in 10 .. 0) {
-            print(i);
+        for (i in 10 downTo  0) {
+            println(i);
         }
     }
 
