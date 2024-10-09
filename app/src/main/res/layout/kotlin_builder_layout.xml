@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="400dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -22,5 +23,29 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:text="Button" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_mytest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+        <Button
+            android:id="@+id/bt_kt_crop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="去裁剪" />
+        <Button
+            android:id="@+id/bt_kt_crop_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="完成" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_mytest2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
     </LinearLayout>
 </RelativeLayout>

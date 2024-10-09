@@ -1,5 +1,7 @@
 package com.example.jhzyl.firstapp.Home;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -32,6 +34,7 @@ public class HomeSuperFragment extends Fragment {
     private List<SuperEntity> datas = new ArrayList<>();
     private static Map<Integer, Integer> fragTabMap = new HashMap<>();
     private int pos;
+    private AlertDialog atDialog;
 
     public static HomeSuperFragment getInstance(int pos, OnVisibilityTitleListener listener) {
         HomeSuperFragment fragment = new HomeSuperFragment();
@@ -42,9 +45,25 @@ public class HomeSuperFragment extends Fragment {
         onVisibilityTitleListener = listener;
         return fragment;
     }
+    private static final String TAG="HomeSuperFragment";
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: ");
+        atDialog=new AlertDialog.Builder(getActivity()).create();
+        atDialog.setIcon(R.drawable.ic_checked);
+        atDialog.setMessage("message");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.home_super_fragment_layout, null);
         Log.i("notifi", "onCreateView: ");
         ViewGroup parent = (ViewGroup) view.getParent();
@@ -57,6 +76,54 @@ public class HomeSuperFragment extends Fragment {
             fragTabMap.put(pos, 0);
         }
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated: ");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: ");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: ");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: ");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: ");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i(TAG, "onDestroyView: ");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.i(TAG, "onDetach: ");
     }
 
     @Override
@@ -114,7 +181,6 @@ public class HomeSuperFragment extends Fragment {
 //            view.setLayoutParams(new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.MATCH_PARENT));
             return new HomeSuperFragment.MyRvAdapter.MyHolder(view);
         }
-
         int count=0;
         @Override
         public void onBindViewHolder(HomeSuperFragment.MyRvAdapter.MyHolder holder, int position) {

@@ -30,9 +30,9 @@ public class HomeThemeAdapter extends FragmentPagerAdapter {
             Log.i("notifi", "getItem: ");
             return HomeSuperFragment.getInstance(position,onVisibilityTitleListener);
         }else if (position==stringArray.length-1){
-            return HomeTestListFragment.getInstance(position,onVisibilityTitleListener);
+            return HomeThemeFragment.getInstance(position,onVisibilityTitleListener);
         }
-        return HomeThemeFragment.getInstance(position,onVisibilityTitleListener);
+        return HomeTestListFragment.getInstance(position,onVisibilityTitleListener);
     }
 
     @Override

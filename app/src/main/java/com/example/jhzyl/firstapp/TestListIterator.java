@@ -1,5 +1,6 @@
 package com.example.jhzyl.firstapp;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -66,7 +67,7 @@ public class TestListIterator {
 //            if (s==null)continue;
 //            System.out.println(""+s.getName());
 //        }
-//        TestListIterator.bubbleSort(NUMBERS);
+        TestListIterator.quickSortDa2Xiao2(NUMBERS);
 
         HashMap<String,String> maps=new HashMap<>();
         maps.put(null,"c");
@@ -78,24 +79,71 @@ public class TestListIterator {
             String value=maps.get(next);
             System.out.println("next:"+next+"--value:"+value);
         }
+//
+//        float a=3;
+//        float b=4;
+//        System.out.println(""+a+"/"+b+"="+a/b);
 
 
     }
+
+    public static void quickSortDa2Xiao(int[] arrays){
+        int acount=0;//循环次数
+        for (int i=0;i<arrays.length-1;i++){
+            for (int k=arrays.length-2;k>=0;k--){
+                int ccc=0;
+                if (arrays[k]<arrays[k+1]){
+                    ccc=arrays[k+1];
+                    arrays[k+1]=arrays[k];
+                    arrays[k]=ccc;
+                }
+                acount++;
+            }
+        }
+        System.out.println(Arrays.toString(arrays) + " bubbleSort:"+acount);
+    }
+
+    public static void quickSortDa2Xiao2(int[] arrays){
+        int k=0;
+        int count=0;
+        for (int i=0;i<arrays.length-1;i++){
+            boolean isSort=false;
+            for (int a=arrays.length-2;a>=0;a--){
+                if (arrays[a]>arrays[a+1]){
+                    k=arrays[a+1];
+                    arrays[a+1]=arrays[a];
+                    arrays[a]=k;
+                    isSort=true;
+                }
+                count++;
+            }
+            if (!isSort){
+                break;
+            }
+        }
+        System.out.println(Arrays.toString(arrays) + "--次数："+count);
+    }
+
+
+
+
 
     // 排序原始数据
     private static final int[] NUMBERS = {49, 38, 65, 97, 76, 13, 27};
 
     public static void bubbleSort(int[] array) {
         int temp = 0;
+        int acount=0;//循环次数
         for (int i = 0; i < array.length - 1; i++) {//0-6
             for (int j = array.length - 2; j >= 0; j--) {//0-5 0-4  0-3  0-2  0-1 0
-                if (array[j] > array[j + 1]) {
+                if (array[j] > array[j + 1]) {//换位置，小的排前面，一次i循环排好一个数。
                     temp = array[j];
                     array[j] = array[j + 1];
                     array[j + 1] = temp;
                 }
             }
+            acount++;
         }
-        System.out.println(Arrays.toString(array) + " bubbleSort");
+        System.out.println(Arrays.toString(array) + " bubbleSort:"+acount);
     }
 }

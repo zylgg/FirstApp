@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ASWorkSpace-FirstApp.iml" filepath="$PROJECT_DIR$/.idea/modules/ASWorkSpace-FirstApp.iml" group="FirstApp" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/FirstApp.iml" filepath="$PROJECT_DIR$/.idea/FirstApp.iml" group="FirstApp" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="FirstApp/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/FirstApp.iml" filepath="$PROJECT_DIR$/.idea/FirstApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/FirstApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/FirstApp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/FirstApp.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/FirstApp.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/FirstApp.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/FirstApp.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/FirstApp.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/FirstApp.app.unitTest.iml" />
     </modules>
   </component>
 </project>
